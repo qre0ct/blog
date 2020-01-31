@@ -1,1 +1,0 @@
-# thoughts.github.io
