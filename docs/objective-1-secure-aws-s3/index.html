@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Objective 1: Secure AWS S3</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="../assets/built/screen.css%3Fv=24bf38ab73.css" />
+
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="canonical" href="index.html" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="amp/index.html" />
+    
+    <meta property="og:site_name" content="nuckingfoob" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Objective 1: Secure AWS S3" />
+    <meta property="og:description" content="What is AWS S3?  Very simply put, it is a service offered by AWS that can be used as storage (called buckets) for different types of files.  So what does it mean to secure AWS S3? It could mean n number of things. One of the things is to ensure" />
+    <meta property="og:url" content="http://localhost:2368/objective-1-secure-aws-s3/" />
+    <meta property="article:published_time" content="2020-02-02T10:05:33.000Z" />
+    <meta property="article:modified_time" content="2020-02-08T13:56:33.000Z" />
+    <meta property="article:tag" content="securing-aws" />
+    <meta property="article:tag" content="LeftBrain" />
+    
+    <meta property="article:publisher" content="https://www.facebook.com/ghost" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Objective 1: Secure AWS S3" />
+    <meta name="twitter:description" content="What is AWS S3?  Very simply put, it is a service offered by AWS that can be used as storage (called buckets) for different types of files.  So what does it mean to secure AWS S3? It could mean n number of things. One of the things is to ensure" />
+    <meta name="twitter:url" content="http://localhost:2368/objective-1-secure-aws-s3/" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="qreoct" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="securing-aws, LeftBrain" />
+    <meta name="twitter:site" content="@geek_ji" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "nuckingfoob",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "http://localhost:2368/favicon.ico",
+            "width": 48,
+            "height": 48
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "qreoct",
+        "url": "http://localhost:2368/author/qreoct/",
+        "sameAs": []
+    },
+    "headline": "Objective 1: Secure AWS S3",
+    "url": "http://localhost:2368/objective-1-secure-aws-s3/",
+    "datePublished": "2020-02-02T10:05:33.000Z",
+    "dateModified": "2020-02-08T13:56:33.000Z",
+    "keywords": "securing-aws, LeftBrain",
+    "description": "What is AWS S3? [https://aws.amazon.com/s3/] \n\nVery simply put, it is a service offered by AWS that can be used as storage\n(called buckets) for different types of files. \n\nSo what does it mean to secure AWS S3?\n\nIt could mean n number of things. One of the things is to ensure that the\nbuckets &amp; it&#x27;s contents (objects) are access controlled &amp; we&#x27;ll focus on this\naspect. \n\n(Others could include things like ensuring that the bucket &amp; it&#x27;s contents are\nprotected against data loss, s3 objects are enc",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:2368/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 3.4" />
+    <link rel="alternate" type="application/rss+xml" title="nuckingfoob" href="../rss/index.html" />
+
+</head>
+<body class="post-template tag-securing-aws tag-leftbrain">
+
+    <div class="site-wrapper">
+
+        
+
+<header class="site-header">
+    <div class="outer site-nav-main">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left-wrapper">
+        <div class="site-nav-left">
+                <a class="site-nav-logo" href="../index.html">nuckingfoob</a>
+            <div class="site-nav-content">
+                    <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="../index.html">Home</a></li>
+    <li class="nav-tag" role="menuitem"><a href="../tag/leftbrain/index.html">Tag</a></li>
+    <li class="nav-author" role="menuitem"><a href="https://www.linkedin.com/in/abhinav-chourasia-gmob-b0642639/">Author</a></li>
+</ul>
+
+                    <span class="nav-post-title dash">Objective 1: Secure AWS S3</span>
+            </div>
+        </div>
+    </div>
+    <div class="site-nav-right">
+            <div class="social-links">
+                    <a class="social-link social-link-fb" href="https://www.facebook.com/ghost" title="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 0c8.837 0 16 7.163 16 16s-7.163 16-16 16S0 24.837 0 16 7.163 0 16 0zm5.204 4.911h-3.546c-2.103 0-4.443.885-4.443 3.934.01 1.062 0 2.08 0 3.225h-2.433v3.872h2.509v11.147h4.61v-11.22h3.042l.275-3.81h-3.397s.007-1.695 0-2.187c0-1.205 1.253-1.136 1.329-1.136h2.054V4.911z" /></svg></a>
+                    <a class="social-link social-link-tw" href="https://twitter.com/geek_ji" title="Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+</a>
+            </div>
+                <a class="rss-button" href="https://feedly.com/i/subscription/feed/http://localhost:2368/rss/" title="RSS" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg>
+</a>
+
+    </div>
+</nav>
+    </div>
+</div></header>
+
+
+<main id="site-main" class="site-main outer">
+    <div class="inner">
+
+        <article class="post-full post tag-securing-aws tag-leftbrain no-image no-image">
+
+            <header class="post-full-header">
+
+                <section class="post-full-tags">
+                    <a href="../tag/securing-aws/index.html">securing-aws</a>
+                </section>
+
+                <h1 class="post-full-title">Objective 1: Secure AWS S3</h1>
+
+
+                <div class="post-full-byline">
+
+                    <section class="post-full-byline-content">
+
+                        <ul class="author-list">
+                            <li class="author-list-item">
+
+                                <div class="author-card">
+                                    <div class="author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</div>
+                                    <div class="author-info">
+                                        <h2>qreoct</h2>
+                                        <p>Read <a href="../author/qreoct/index.html">more posts</a> by this author.</p>
+                                    </div>
+                                </div>
+
+                                <a href="../author/qreoct/index.html" class="author-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+
+                            </li>
+                        </ul>
+
+                        <section class="post-full-byline-meta">
+                            <h4 class="author-name"><a href="../author/qreoct/index.html">qreoct</a></h4>
+                            <div class="byline-meta-content">
+                                <time class="byline-meta-date" datetime="2020-02-02">2 Feb 2020</time>
+                                <span class="byline-reading-time"><span class="bull">&bull;</span> 1 min read</span>
+                            </div>
+                        </section>
+
+                    </section>
+
+
+                </div>
+            </header>
+
+
+            <section class="post-full-content">
+                <div class="post-content">
+                    <p><a href="https://aws.amazon.com/s3/">What is AWS S3?</a> </p><p>Very simply put, it is a service offered by AWS that can be used as storage (called <em>buckets</em>) for different types of files. </p><p>So what does it mean to secure AWS S3?</p><p>It could mean n number of things. One of the things is to ensure that the buckets &amp; it's contents (objects) are access controlled &amp; we'll focus on this aspect. </p><p><em>(Others could include things like ensuring that the bucket &amp; it's contents are protected against data loss, s3 objects are encrypted at rest, there's logging enabled for the buckets etc. We would not talk about these or any others in this case. Also, AWS by default has options to ensure public access around S3 is taken care of , like disabling public access at the account level itself. We would not talk about this either, as may not always be feasible for every org/use case, like it wasn't in our case) </em></p><h3 id="key-result-no-open-public-buckets-objects"><u>Key result</u>: No open/public buckets/objects</h3><p>We need a measurable key result to ensure that we have been able to achieve our objective. We define our key result as a measure of the number of AWS S3 buckets or any content/s within them that are publicly accessible. So ideally, if we could define <em>zero number of open/public buckets/objects </em>as our criteria to say that we have achieved our objective, nothing like it. </p><p>But of course there could be reasons for certain buckets or objects (contents of a bucket) to be publicly accessible, depending on the business context, which always is/should be the highest priority. Hence our actual key result, to accommodate for the above, becomes:</p><ul><li><em>No open/public buckets/objects, </em></li><li><em>at least not without prior approval from the security team or the information of the security team. </em></li></ul><h3 id="plan"><u>Plan</u></h3><p>Below would be our plan to reach our key result/s &amp; finally achieve our objective too. </p><ol><li>Audit &amp; ensure that the existing open buckets/objects fixed/accounted for</li><li>Ensure that any new buckets/objects being created are secure</li><li>Ensure that the security team is made aware of any insecure buckets/objects existence/creation (if at all) as quickly as possible</li></ol>
+                </div>
+            </section>
+
+
+
+        </article>
+
+    </div>
+</main>
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+                <article class="read-next-card">
+                    <header class="read-next-card-header">
+                        <h3><span>More in</span> <a href="../tag/securing-aws/index.html">securing-aws</a></h3>
+                    </header>
+                    <div class="read-next-card-content">
+                        <ul>
+                            <li>
+                                <h4><a href="../audit-aws-s3/index.html">Audit AWS S3</a></h4>
+                                <div class="read-next-card-meta">
+                                    <p><time datetime="2020-02-08">8 Feb 2020</time> –
+                                        5 min read</p>
+                                </div>
+                            </li>
+                            <li>
+                                <h4><a href="../securing-cloudinfra-intro/index.html">Securing your cloud infra - one step at a time</a></h4>
+                                <div class="read-next-card-meta">
+                                    <p><time datetime="2020-01-31">31 Jan 2020</time> –
+                                        1 min read</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <footer class="read-next-card-footer">
+                        <a href="../tag/securing-aws/index.html">See all 2 posts
+                            →</a>
+                    </footer>
+                </article>
+
+                <article class="post-card post tag-securing-aws tag-leftbrain no-image no-image">
+
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="../audit-aws-s3/index.html">
+
+            <header class="post-card-header">
+                    <div class="post-card-primary-tag">securing-aws</div>
+                <h2 class="post-card-title">Audit AWS S3</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                    <p>What? Go through all the S3 buckets &amp; objects in the existing AWS infra &amp; check to see how many &amp; which of those are publicly accessible &amp; why. Why?We need to get a picture of the current state of S3 in our</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+            
+                    <div class="author-name-tooltip">
+                        qreoct
+                    </div>
+            
+                    <a href="../author/qreoct/index.html" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="../author/qreoct/index.html">qreoct</a></span>
+                <span class="post-card-byline-date"><time datetime="2020-02-08">8 Feb 2020</time> <span class="bull">&bull;</span> 5 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+
+                <article class="post-card post tag-securing-aws tag-leftbrain no-image no-image">
+
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="../securing-cloudinfra-intro/index.html">
+
+            <header class="post-card-header">
+                    <div class="post-card-primary-tag">securing-aws</div>
+                <h2 class="post-card-title">Securing your cloud infra - one step at a time</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                    <p>So this blogpost has been sitting in my drafts for indeed a very long time. And I am definitely late to the party, but hopefully the write up is still of some help to someone. Securing any cloud environment, for that matter, is a</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+            
+                    <div class="author-name-tooltip">
+                        qreoct
+                    </div>
+            
+                    <a href="../author/qreoct/index.html" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="../author/qreoct/index.html">qreoct</a></span>
+                <span class="post-card-byline-date"><time datetime="2020-01-31">31 Jan 2020</time> <span class="bull">&bull;</span> 1 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+        </div>
+    </div>
+</aside>
+
+
+
+
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="../index.html">nuckingfoob</a> &copy; 2020</section>
+                <nav class="site-footer-nav">
+                    <a href="../index.html">Latest Posts</a>
+                    <a href="https://www.facebook.com/ghost" target="_blank" rel="noopener">Facebook</a>
+                    <a href="https://twitter.com/geek_ji" target="_blank" rel="noopener">Twitter</a>
+                    <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+    </script>
+    <script src="../assets/built/casper.js%3Fv=24bf38ab73"></script>
+
+    <script>
+        // Parse the URL parameter
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        // Give the parameter a variable name
+        var action = getParameterByName('action');
+
+        $(document).ready(function () {
+            if (action == 'subscribe') {
+                $('body').addClass("subscribe-success");
+            }
+
+            $('.subscribe-success-message .subscribe-close').click(function () {
+                $('.subscribe-success-message').addClass('close');
+            });
+
+            // Reset form on opening subscrion overlay
+            $('.subscribe-button').click(function() {
+                $('.subscribe-overlay form').removeClass();
+                $('.subscribe-email').val('');
+            });
+        });
+    </script>
+
+    <script>
+    $(document).ready(function () {
+        // FitVids - start
+        var $postContent = $(".post-full-content");
+        $postContent.fitVids();
+        // FitVids - end
+
+        // Replace nav with title on scroll - start
+        Casper.stickyNavTitle({
+            navSelector: '.site-nav-main',
+            titleSelector: '.post-full-title',
+            activeClass: 'nav-post-title-active'
+        });
+        // Replace nav with title on scroll - end
+
+        // Hover on avatar
+        var hoverTimeout;
+        $('.author-list-item').hover(function () {
+            var $this = $(this);
+
+            clearTimeout(hoverTimeout);
+
+            $('.author-card').removeClass('hovered');
+            $(this).children('.author-card').addClass('hovered');
+
+        }, function () {
+            var $this = $(this);
+
+            hoverTimeout = setTimeout(function () {
+                $this.children('.author-card').removeClass('hovered');
+            }, 800);
+        });
+    });
+</script>
+
+
+    
+
+</body>
+</html>

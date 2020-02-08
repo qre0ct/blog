@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Securing your cloud infra - one step at a time</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="../assets/built/screen.css%3Fv=24bf38ab73.css" />
+
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="canonical" href="index.html" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="amp/index.html" />
+    
+    <meta property="og:site_name" content="nuckingfoob" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Securing your cloud infra - one step at a time" />
+    <meta property="og:description" content="So this blogpost has been sitting in my drafts for indeed a very long time. And I am definitely late to the party, but hopefully the write up is still of some help to someone. Securing any cloud environment, for that matter, is a vast topic &amp;amp; it would be" />
+    <meta property="og:url" content="http://localhost:2368/securing-cloudinfra-intro/" />
+    <meta property="article:published_time" content="2020-01-31T16:03:29.000Z" />
+    <meta property="article:modified_time" content="2020-02-08T15:08:21.000Z" />
+    <meta property="article:tag" content="securing-aws" />
+    <meta property="article:tag" content="LeftBrain" />
+    
+    <meta property="article:publisher" content="https://www.facebook.com/ghost" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Securing your cloud infra - one step at a time" />
+    <meta name="twitter:description" content="So this blogpost has been sitting in my drafts for indeed a very long time. And I am definitely late to the party, but hopefully the write up is still of some help to someone. Securing any cloud environment, for that matter, is a vast topic &amp;amp; it would be" />
+    <meta name="twitter:url" content="http://localhost:2368/securing-cloudinfra-intro/" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="qreoct" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="securing-aws, LeftBrain" />
+    <meta name="twitter:site" content="@geek_ji" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "nuckingfoob",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "http://localhost:2368/favicon.ico",
+            "width": 48,
+            "height": 48
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "qreoct",
+        "url": "http://localhost:2368/author/qreoct/",
+        "sameAs": []
+    },
+    "headline": "Securing your cloud infra - one step at a time",
+    "url": "http://localhost:2368/securing-cloudinfra-intro/",
+    "datePublished": "2020-01-31T16:03:29.000Z",
+    "dateModified": "2020-02-08T15:08:21.000Z",
+    "keywords": "securing-aws, LeftBrain",
+    "description": "So this blogpost has been sitting in my drafts for indeed a very long time. And\nI am definitely late to the party, but hopefully the write up is still of some\nhelp to someone.\n\nSecuring any cloud environment, for that matter, is a vast topic &amp; it would be\ndifficult to cover it all in one single blogpost. Hence, I would try to break it\ndown as per a generic approach that I usually take when trying to think of\nsolutions around any given problem. One thing that I have learnt, sort of the\nhard way &amp;",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:2368/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 3.4" />
+    <link rel="alternate" type="application/rss+xml" title="nuckingfoob" href="../rss/index.html" />
+
+</head>
+<body class="post-template tag-securing-aws tag-leftbrain">
+
+    <div class="site-wrapper">
+
+        
+
+<header class="site-header">
+    <div class="outer site-nav-main">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left-wrapper">
+        <div class="site-nav-left">
+                <a class="site-nav-logo" href="../index.html">nuckingfoob</a>
+            <div class="site-nav-content">
+                    <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="../index.html">Home</a></li>
+    <li class="nav-tag" role="menuitem"><a href="../tag/leftbrain/index.html">Tag</a></li>
+    <li class="nav-author" role="menuitem"><a href="https://www.linkedin.com/in/abhinav-chourasia-gmob-b0642639/">Author</a></li>
+</ul>
+
+                    <span class="nav-post-title dash">Securing your cloud infra - one step at a time</span>
+            </div>
+        </div>
+    </div>
+    <div class="site-nav-right">
+            <div class="social-links">
+                    <a class="social-link social-link-fb" href="https://www.facebook.com/ghost" title="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 0c8.837 0 16 7.163 16 16s-7.163 16-16 16S0 24.837 0 16 7.163 0 16 0zm5.204 4.911h-3.546c-2.103 0-4.443.885-4.443 3.934.01 1.062 0 2.08 0 3.225h-2.433v3.872h2.509v11.147h4.61v-11.22h3.042l.275-3.81h-3.397s.007-1.695 0-2.187c0-1.205 1.253-1.136 1.329-1.136h2.054V4.911z" /></svg></a>
+                    <a class="social-link social-link-tw" href="https://twitter.com/geek_ji" title="Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+</a>
+            </div>
+                <a class="rss-button" href="https://feedly.com/i/subscription/feed/http://localhost:2368/rss/" title="RSS" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg>
+</a>
+
+    </div>
+</nav>
+    </div>
+</div></header>
+
+
+<main id="site-main" class="site-main outer">
+    <div class="inner">
+
+        <article class="post-full post tag-securing-aws tag-leftbrain no-image no-image">
+
+            <header class="post-full-header">
+
+                <section class="post-full-tags">
+                    <a href="../tag/securing-aws/index.html">securing-aws</a>
+                </section>
+
+                <h1 class="post-full-title">Securing your cloud infra - one step at a time</h1>
+
+
+                <div class="post-full-byline">
+
+                    <section class="post-full-byline-content">
+
+                        <ul class="author-list">
+                            <li class="author-list-item">
+
+                                <div class="author-card">
+                                    <div class="author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</div>
+                                    <div class="author-info">
+                                        <h2>qreoct</h2>
+                                        <p>Read <a href="../author/qreoct/index.html">more posts</a> by this author.</p>
+                                    </div>
+                                </div>
+
+                                <a href="../author/qreoct/index.html" class="author-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+
+                            </li>
+                        </ul>
+
+                        <section class="post-full-byline-meta">
+                            <h4 class="author-name"><a href="../author/qreoct/index.html">qreoct</a></h4>
+                            <div class="byline-meta-content">
+                                <time class="byline-meta-date" datetime="2020-01-31">31 Jan 2020</time>
+                                <span class="byline-reading-time"><span class="bull">&bull;</span> 1 min read</span>
+                            </div>
+                        </section>
+
+                    </section>
+
+
+                </div>
+            </header>
+
+
+            <section class="post-full-content">
+                <div class="post-content">
+                    <p>So this blogpost has been sitting in my drafts for indeed a very long time. And I am definitely late to the party, but hopefully the write up is still of some help to someone.</p><p>Securing any cloud environment, for that matter, is a vast topic &amp; it would be difficult to cover it all in one single blogpost. Hence, I would try to break it down as per a generic approach that I usually take when trying to think of solutions around any given problem. One thing that I have learnt, sort of the hard way &amp; I am very grateful for this learning is, </p><ol><li>to identify the actual root cause of the problem</li><li>to <strong>measure what matters  </strong>(<a href="https://books.google.co.in/books/about/Measure_What_Matters.html?id=u2NDDwAAQBAJ&amp;redir_esc=y">excellent read</a> IMHO)</li><li>collaborate (wherever &amp; whenever possible) with devs &amp; systems teams. It makes a security engineer's job a breeze &amp; solutions worthwhile !</li></ol><p>For this post we would <strong>not</strong> focus on identification of the root cause of the problem, since this post is directed towards securing your cloud infra &amp; of course because I would like to keep this post more technical than philosophical. We would <em>assume</em> that we have a problem statement at hand that needs to be solved. </p><p>For this post and (hopefully) a few follow up ones, we would focus on securing AWS, <em>one step at a time.</em> AWS itself has plenty of resources &amp; securing AWS essentially means securing each of these resources, of course depending on what resources you are using out of these. It does not make a lot of sense to try securing s3, for example, if you're not really using it at all. </p><p><u>Problem statement</u>: <em>Secure AWS infrastructure</em> </p><p>If we want to solve the above problem, we would break up the problem into smaller sub problems/objectives. </p><p><u>Objectives</u>: </p><ol><li><em>Secure AWS S3 </em></li><li><em>Secure Ec2 instances</em></li><li><em>Secure IAM</em></li><li><em>Secure EKS</em></li></ol><p>The above is a very limited list. But for now, let us focus on them alone and one at a time. </p><p><strong><u>Credits: </u></strong></p><ul><li><strong>@makash for the constant motivation</strong></li><li><strong>@amolnaik4 for guidance around thought process</strong></li><li><strong>@AjeyGore for introduction to measure what matters</strong></li></ul>
+                </div>
+            </section>
+
+
+
+        </article>
+
+    </div>
+</main>
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+                <article class="read-next-card">
+                    <header class="read-next-card-header">
+                        <h3><span>More in</span> <a href="../tag/securing-aws/index.html">securing-aws</a></h3>
+                    </header>
+                    <div class="read-next-card-content">
+                        <ul>
+                            <li>
+                                <h4><a href="../audit-aws-s3/index.html">Audit AWS S3</a></h4>
+                                <div class="read-next-card-meta">
+                                    <p><time datetime="2020-02-08">8 Feb 2020</time> –
+                                        5 min read</p>
+                                </div>
+                            </li>
+                            <li>
+                                <h4><a href="../objective-1-secure-aws-s3/index.html">Objective 1: Secure AWS S3</a></h4>
+                                <div class="read-next-card-meta">
+                                    <p><time datetime="2020-02-02">2 Feb 2020</time> –
+                                        1 min read</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <footer class="read-next-card-footer">
+                        <a href="../tag/securing-aws/index.html">See all 2 posts
+                            →</a>
+                    </footer>
+                </article>
+
+                <article class="post-card post tag-securing-aws tag-leftbrain no-image no-image">
+
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="../objective-1-secure-aws-s3/index.html">
+
+            <header class="post-card-header">
+                    <div class="post-card-primary-tag">securing-aws</div>
+                <h2 class="post-card-title">Objective 1: Secure AWS S3</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                    <p>What is AWS S3?  Very simply put, it is a service offered by AWS that can be used as storage (called buckets) for different types of files.  So what does it mean to secure AWS S3? It could mean n number of things. One</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+            
+                    <div class="author-name-tooltip">
+                        qreoct
+                    </div>
+            
+                    <a href="../author/qreoct/index.html" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="../author/qreoct/index.html">qreoct</a></span>
+                <span class="post-card-byline-date"><time datetime="2020-02-02">2 Feb 2020</time> <span class="bull">&bull;</span> 1 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+
+        </div>
+    </div>
+</aside>
+
+
+
+
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="../index.html">nuckingfoob</a> &copy; 2020</section>
+                <nav class="site-footer-nav">
+                    <a href="../index.html">Latest Posts</a>
+                    <a href="https://www.facebook.com/ghost" target="_blank" rel="noopener">Facebook</a>
+                    <a href="https://twitter.com/geek_ji" target="_blank" rel="noopener">Twitter</a>
+                    <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+    </script>
+    <script src="../assets/built/casper.js%3Fv=24bf38ab73"></script>
+
+    <script>
+        // Parse the URL parameter
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        // Give the parameter a variable name
+        var action = getParameterByName('action');
+
+        $(document).ready(function () {
+            if (action == 'subscribe') {
+                $('body').addClass("subscribe-success");
+            }
+
+            $('.subscribe-success-message .subscribe-close').click(function () {
+                $('.subscribe-success-message').addClass('close');
+            });
+
+            // Reset form on opening subscrion overlay
+            $('.subscribe-button').click(function() {
+                $('.subscribe-overlay form').removeClass();
+                $('.subscribe-email').val('');
+            });
+        });
+    </script>
+
+    <script>
+    $(document).ready(function () {
+        // FitVids - start
+        var $postContent = $(".post-full-content");
+        $postContent.fitVids();
+        // FitVids - end
+
+        // Replace nav with title on scroll - start
+        Casper.stickyNavTitle({
+            navSelector: '.site-nav-main',
+            titleSelector: '.post-full-title',
+            activeClass: 'nav-post-title-active'
+        });
+        // Replace nav with title on scroll - end
+
+        // Hover on avatar
+        var hoverTimeout;
+        $('.author-list-item').hover(function () {
+            var $this = $(this);
+
+            clearTimeout(hoverTimeout);
+
+            $('.author-card').removeClass('hovered');
+            $(this).children('.author-card').addClass('hovered');
+
+        }, function () {
+            var $this = $(this);
+
+            hoverTimeout = setTimeout(function () {
+                $this.children('.author-card').removeClass('hovered');
+            }, 800);
+        });
+    });
+</script>
+
+
+    
+
+</body>
+</html>
