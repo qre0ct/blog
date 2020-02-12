@@ -9,7 +9,7 @@
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" type="text/css" href="../assets/built/screen.css%3Fv=24bf38ab73.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/built/screen.css%3Fv=33c472117d.css" />
 
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
     <link rel="canonical" href="index.html" />
@@ -19,17 +19,16 @@
     <meta property="og:site_name" content="nuckingfoob" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="Audit AWS S3" />
-    <meta property="og:description" content="What? Go through all the S3 buckets &amp;amp; objects in the existing AWS infra &amp;amp; check to see how many &amp;amp; which of those are publicly accessible &amp;amp; why. Why?We need to get a picture of the current state of S3 in our infrastructure . This would help us assess" />
+    <meta property="og:description" content="Automating AWS S3 audits - an opinionated approach" />
     <meta property="og:url" content="http://localhost:2368/audit-aws-s3/" />
     <meta property="article:published_time" content="2020-02-08T06:46:57.000Z" />
-    <meta property="article:modified_time" content="2020-02-08T15:13:32.000Z" />
+    <meta property="article:modified_time" content="2020-02-10T18:47:17.000Z" />
     <meta property="article:tag" content="securing-aws" />
     <meta property="article:tag" content="LeftBrain" />
     
-    <meta property="article:publisher" content="https://www.facebook.com/ghost" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Audit AWS S3" />
-    <meta name="twitter:description" content="What? Go through all the S3 buckets &amp;amp; objects in the existing AWS infra &amp;amp; check to see how many &amp;amp; which of those are publicly accessible &amp;amp; why. Why?We need to get a picture of the current state of S3 in our infrastructure . This would help us assess" />
+    <meta name="twitter:description" content="Automating AWS S3 audits - an opinionated approach" />
     <meta name="twitter:url" content="http://localhost:2368/audit-aws-s3/" />
     <meta name="twitter:label1" content="Written by" />
     <meta name="twitter:data1" content="qreoct" />
@@ -60,9 +59,9 @@
     "headline": "Audit AWS S3",
     "url": "http://localhost:2368/audit-aws-s3/",
     "datePublished": "2020-02-08T06:46:57.000Z",
-    "dateModified": "2020-02-08T15:13:32.000Z",
+    "dateModified": "2020-02-10T18:47:17.000Z",
     "keywords": "securing-aws, LeftBrain",
-    "description": "What?\n\nGo through all the S3 buckets &amp; objects in the existing AWS infra &amp; check to see\nhow many &amp; which of those are publicly accessible &amp; why.\n\nWhy?\n * We need to get a picture of the current state of S3 in our infrastructure .\n   This would help us assess what &amp; how much work needs to be done\n * It would help us keep a track of our progress\n * This essentially defines our benchmark\n\nHow?\n\nThere&#x27;s a possibility that this is the first time that the S3 resource is going\nto be used in our AWS inf",
+    "description": "Automating AWS S3 audits - an opinionated approach",
     "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "http://localhost:2368/"
@@ -90,7 +89,8 @@
             <div class="site-nav-content">
                     <ul class="nav" role="menu">
     <li class="nav-home" role="menuitem"><a href="../index.html">Home</a></li>
-    <li class="nav-tag" role="menuitem"><a href="../tag/leftbrain/index.html">Tag</a></li>
+    <li class="nav-leftbrain" role="menuitem"><a href="../tag/leftbrain/index.html">LeftBrain</a></li>
+    <li class="nav-rightbrain" role="menuitem"><a href="../tag/rightbrain/index.html">RightBrain</a></li>
     <li class="nav-author" role="menuitem"><a href="https://www.linkedin.com/in/abhinav-chourasia-gmob-b0642639/">Author</a></li>
 </ul>
 
@@ -100,7 +100,6 @@
     </div>
     <div class="site-nav-right">
             <div class="social-links">
-                    <a class="social-link social-link-fb" href="https://www.facebook.com/ghost" title="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 0c8.837 0 16 7.163 16 16s-7.163 16-16 16S0 24.837 0 16 7.163 0 16 0zm5.204 4.911h-3.546c-2.103 0-4.443.885-4.443 3.934.01 1.062 0 2.08 0 3.225h-2.433v3.872h2.509v11.147h4.61v-11.22h3.042l.275-3.81h-3.397s.007-1.695 0-2.187c0-1.205 1.253-1.136 1.329-1.136h2.054V4.911z" /></svg></a>
                     <a class="social-link social-link-tw" href="https://twitter.com/geek_ji" title="Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
 </a>
             </div>
@@ -126,6 +125,7 @@
 
                 <h1 class="post-full-title">Audit AWS S3</h1>
 
+                <p class="post-full-custom-excerpt">Automating AWS S3 audits - an opinionated approach</p>
 
                 <div class="post-full-byline">
 
@@ -166,7 +166,7 @@
 
             <section class="post-full-content">
                 <div class="post-content">
-                    <h3 id="what">What?</h3><p><br>Go through all the S3 buckets &amp; objects in the existing AWS infra &amp; check to see how many &amp; which of those are publicly accessible &amp; why.</p><h3 id="why">Why?</h3><ul><li>We need to get a picture of the current state of S3 in our infrastructure . This would help us assess what &amp; how much work needs to be done</li><li>It would help us keep a track of our progress</li><li>This essentially defines our benchmark</li></ul><h3 id="how">How?</h3><p><br>There's a possibility that this is the first time that the S3 resource is going to be used in our AWS infra, in which case, the effects of audits may not be immediately visible. Nevertheless, audits still make sense as the usage of S3, in our infra, expands.</p><p><br>In the other case, where AWS S3 is already being used in the infra, this could easily become one of the most time taking (&amp; consuming) task. We could choose to do this manually by logging into the AWS console everyday &amp; doing this audit manually or with the power of programming/scripting (especially in python) bestowed in us, we could choose to automate the audits. (I am not a big fan of the former approach personally, <strong>at all!</strong>)<br></p><h3 id="milestones">Milestones?</h3><ul><li>get a list of all existing buckets/objects, their existing access permissions &amp; possibly their owners &amp; reasons for why these buckets/objects are public</li><li>get a count of buckets/objects that are publicly accessible</li><li>have a script ensuring that this list is regularly updated &amp; maintained<br></li></ul><p>As mentioned earlier, one way of doing the above is to goto the AWS console &amp; look for these buckets &amp; their permissions &amp; maintain a record of the same manually. However, I prefer automation wherever possible (&amp; sensible). There are plenty of open source scripts/tools that let you do these kind of audits. A simple Google search would give enough good results, like:</p><figure class="kg-card kg-bookmark-card"><a class="kg-bookmark-container" href="https://github.com/scalefactory/s3audit"><div class="kg-bookmark-content"><div class="kg-bookmark-title">scalefactory/s3audit</div><div class="kg-bookmark-description">CLI tool for auditing S3 buckets. Contribute to scalefactory/s3audit development by creating an account on GitHub.</div><div class="kg-bookmark-metadata"><img class="kg-bookmark-icon" src="https://github.githubassets.com/favicon.ico"><span class="kg-bookmark-author">scalefactory</span><span class="kg-bookmark-publisher">GitHub</span></div></div><div class="kg-bookmark-thumbnail"><img src="https://avatars2.githubusercontent.com/u/1318638?s=400&amp;v=4"></div></a></figure><figure class="kg-card kg-bookmark-card"><a class="kg-bookmark-container" href="https://github.com/SecOps-Institute/AWS-S3-Buckets-Audit-Users"><div class="kg-bookmark-content"><div class="kg-bookmark-title">SecOps-Institute/AWS-S3-Buckets-Audit-Users</div><div class="kg-bookmark-description">Ever tried to summarise the User access to the S3 buckets in your AWS Account? Here is the tool that can help you do the same - SecOps-Institute/AWS-S3-Buckets-Audit-Users</div><div class="kg-bookmark-metadata"><img class="kg-bookmark-icon" src="https://github.githubassets.com/favicon.ico"><span class="kg-bookmark-author">SecOps-Institute</span><span class="kg-bookmark-publisher">GitHub</span></div></div><div class="kg-bookmark-thumbnail"><img src="https://avatars0.githubusercontent.com/u/37894354?s=400&amp;v=4"></div></a></figure><figure class="kg-card kg-bookmark-card"><a class="kg-bookmark-container" href="https://github.com/richarvey/s3-permission-checker"><div class="kg-bookmark-content"><div class="kg-bookmark-title">richarvey/s3-permission-checker</div><div class="kg-bookmark-description">Check read, write permissions on S3 buckets in your account - richarvey/s3-permission-checker</div><div class="kg-bookmark-metadata"><img class="kg-bookmark-icon" src="https://github.githubassets.com/favicon.ico"><span class="kg-bookmark-author">richarvey</span><span class="kg-bookmark-publisher">GitHub</span></div></div><div class="kg-bookmark-thumbnail"><img src="https://avatars0.githubusercontent.com/u/532137?s=400&amp;v=4"></div></a></figure><p>etc. All of the above are good tools that can be used to get S3 audits in place. </p><p>The above script helps us achieve all the milestones identified above, except the part that mentions "possibly their owners &amp; reasons for why these buckets/objects are public". This is a manual thing that needs to be done, unless there's already enough tooling in the existing infra that maintains this record already.</p><p>However, once we have captured the above data &amp; analyzed it, we are in a position to determine what exactly are the requirements of our developers, why do they need buckets/objects with a certain access &amp; which all of the buckets/objects can/should remain with lenient access controls. Consequently, this allows for more informed decisions on what may be called insecure in the context of our developers/our org requirements, instead of a <em>one size fits all</em> approach. It helps us decide the strategy that would best suit the custom needs of our devs while ensuring security around anything (s3 in this case).</p><p>For example, in our use case, after doing the above exercise &amp; extended discussions with our devops/systems team/enough devs, we concluded on the below strategy for managing access around our S3:</p><ol><li>Only &amp; only the following 3 operations should be allowed onto any bucket: <strong>s3:GetObject, s3:PutObject and s3:DeleteObject</strong></li><li>There should be one IAM user for every single bucket who would be allowed the above 3 access permissions <strong>onto that bucket &amp; that bucket alone</strong>. A naming convention was also made ensuring that all such IAM user names end with <code>-s3</code> so we could easily identify these users as &amp; when needed</li><li>All of these users must belong to the only one AWS account that we use, or in other words, no cross account access allowed</li></ol><p>Any buckets that do not follow the above criteria would be considered insecure. </p><blockquote><em>Now the above example is a very opinionated conclusion based on our specific requirements. This could be anything else in your case. </em></blockquote><p>So, to suit our specific audit needs, we came up with a custom audit script, which can be found here:</p><figure class="kg-card kg-bookmark-card"><a class="kg-bookmark-container" href="https://github.com/c0n71nu3/s3Auditor"><div class="kg-bookmark-content"><div class="kg-bookmark-title">c0n71nu3/s3Auditor</div><div class="kg-bookmark-description">Contribute to c0n71nu3/s3Auditor development by creating an account on GitHub.</div><div class="kg-bookmark-metadata"><img class="kg-bookmark-icon" src="https://github.githubassets.com/favicon.ico"><span class="kg-bookmark-author">c0n71nu3</span><span class="kg-bookmark-publisher">GitHub</span></div></div><div class="kg-bookmark-thumbnail"><img src="https://avatars0.githubusercontent.com/u/11993558?s=400&amp;v=4"></div></a></figure><p>After the results of the above audit are available, the next step is to start working on the data by getting the bucket/object access fixed where ever identified as necessary. This may again be quite a manual task (&amp; a mammoth in our case), depending on how the processes are defined in your org, as it may need context, permissions, execution capabilities/bandwidth etc. to get these fixed. Once all the identified issues are fixed, we would have reached a clean slate. The audits would need to be still run periodically though to ensure that the security team is on top of things should anything come up again after the audits or to keep a track of the progress around the clean up itself. </p><blockquote>The <strong>number</strong> of buckets still existing with <em>unacceptable</em> access gives a great deal of clarity on whether efforts are being invested in the right direction or not. <em>Mangers/leadership please smile :)</em></blockquote>
+                    <h3 id="what">What </h3><p>Go through all the existing S3 buckets &amp; objects in the AWS infra &amp; check to see how many &amp; which of those are publicly accessible &amp; why.</p><h3 id="why">Why</h3><ul><li>We need to get a picture of the current state of S3 in our infrastructure . This would help us assess what &amp; how much work needs to be done</li><li>It would help us keep a track of our progress</li><li>This essentially defines our benchmark</li></ul><h3 id="how">How </h3><p>There's a possibility that this is the first time that the S3 resource is going to be used in our AWS infra, in which case, the effects of audits may not be immediately visible. Nevertheless, audits still make sense as the usage of S3, in our infra, expands. </p><p>In the other case, where AWS S3 is already being used in the infra, this could easily become one of the most time taking (&amp; consuming) task. We could choose to do this manually by logging into the AWS console everyday &amp; doing this audit manually or with the power of programming/scripting (especially in python) bestowed in us, we could choose to automate the audits. (I am not a big fan of the former approach personally, <strong>at all!</strong>)</p><h3 id="milestones">Milestones</h3><ul><li>[ ] get a list of all existing buckets/objects, their existing access permissions &amp; possibly their owners &amp; reasons for why these buckets/objects are public</li><li>[ ] get a count of buckets/objects that are publicly accessible</li><li>[ ] have a script ensuring that this list is regularly updated &amp; maintained</li></ul><p>As mentioned earlier, one way of doing the above is to goto the AWS console &amp; look for these buckets &amp; their permissions &amp; maintain a record of the same manually. However, I prefer automation wherever possible (&amp; sensible). There are plenty of open source scripts/tools that let you do these kind of audits. A simple Google search would give enough good results, like:</p><figure class="kg-card kg-bookmark-card"><a class="kg-bookmark-container" href="https://github.com/scalefactory/s3audit"><div class="kg-bookmark-content"><div class="kg-bookmark-title">scalefactory/s3audit</div><div class="kg-bookmark-description">CLI tool for auditing S3 buckets. Contribute to scalefactory/s3audit development by creating an account on GitHub.</div><div class="kg-bookmark-metadata"><img class="kg-bookmark-icon" src="https://github.githubassets.com/favicon.ico"><span class="kg-bookmark-author">scalefactory</span><span class="kg-bookmark-publisher">GitHub</span></div></div><div class="kg-bookmark-thumbnail"><img src="https://avatars2.githubusercontent.com/u/1318638?s=400&amp;v=4"></div></a></figure><figure class="kg-card kg-bookmark-card"><a class="kg-bookmark-container" href="https://github.com/SecOps-Institute/AWS-S3-Buckets-Audit-Users"><div class="kg-bookmark-content"><div class="kg-bookmark-title">SecOps-Institute/AWS-S3-Buckets-Audit-Users</div><div class="kg-bookmark-description">Ever tried to summarise the User access to the S3 buckets in your AWS Account? Here is the tool that can help you do the same - SecOps-Institute/AWS-S3-Buckets-Audit-Users</div><div class="kg-bookmark-metadata"><img class="kg-bookmark-icon" src="https://github.githubassets.com/favicon.ico"><span class="kg-bookmark-author">SecOps-Institute</span><span class="kg-bookmark-publisher">GitHub</span></div></div><div class="kg-bookmark-thumbnail"><img src="https://avatars0.githubusercontent.com/u/37894354?s=400&amp;v=4"></div></a></figure><figure class="kg-card kg-bookmark-card"><a class="kg-bookmark-container" href="https://github.com/richarvey/s3-permission-checker"><div class="kg-bookmark-content"><div class="kg-bookmark-title">richarvey/s3-permission-checker</div><div class="kg-bookmark-description">Check read, write permissions on S3 buckets in your account - richarvey/s3-permission-checker</div><div class="kg-bookmark-metadata"><img class="kg-bookmark-icon" src="https://github.githubassets.com/favicon.ico"><span class="kg-bookmark-author">richarvey</span><span class="kg-bookmark-publisher">GitHub</span></div></div><div class="kg-bookmark-thumbnail"><img src="https://avatars0.githubusercontent.com/u/532137?s=400&amp;v=4"></div></a></figure><p>etc. All of the above are good tools that can be used to get S3 audits in place. </p><p>The above script helps us achieve all the milestones identified above, except the part that mentions "possibly their owners &amp; reasons for why these buckets/objects are public". This is a manual thing that needs to be done, unless there's already enough tooling in the existing infra that maintains this record already.</p><p>However, once we have captured the above data &amp; analyzed it, we are in a position to determine what exactly are the requirements of our developers, why do they need buckets/objects with a certain access &amp; which all of the buckets/objects can/should remain with lenient access controls. Consequently, this allows for more informed decisions on what may be called insecure in the context of our developers/our org requirements, instead of a <em>one size fits all</em> approach. It helps us decide the strategy that would best suit the custom needs of our devs while ensuring security around anything (s3 in this case).</p><p>For example, in our use case, after doing the above exercise &amp; extended discussions with our devops/systems team/enough devs, we concluded on the below strategy for managing access around our S3:</p><ol><li>Only &amp; only the following 3 operations should be allowed onto any bucket: <strong>s3:GetObject, s3:PutObject and s3:DeleteObject</strong></li><li>There should be one IAM user for every single bucket who would be allowed the above 3 access permissions <strong>onto that bucket &amp; that bucket alone</strong>. A naming convention was also made ensuring that all such IAM user names end with <code>-s3</code> so we could easily identify these users as &amp; when needed</li><li>All of these users must belong to the only one AWS account that we use, or in other words, no cross account access allowed</li></ol><p>Any buckets that do not follow the above criteria would be considered insecure. </p><blockquote><em>Now the above example is a very opinionated conclusion based on our specific requirements. This could be anything else in your case. </em></blockquote><p>So, to suit our specific audit needs, we came up with a custom audit script, which can be found here:</p><figure class="kg-card kg-bookmark-card"><a class="kg-bookmark-container" href="https://github.com/c0n71nu3/s3Auditor"><div class="kg-bookmark-content"><div class="kg-bookmark-title">c0n71nu3/s3Auditor</div><div class="kg-bookmark-description">Contribute to c0n71nu3/s3Auditor development by creating an account on GitHub.</div><div class="kg-bookmark-metadata"><img class="kg-bookmark-icon" src="https://github.githubassets.com/favicon.ico"><span class="kg-bookmark-author">c0n71nu3</span><span class="kg-bookmark-publisher">GitHub</span></div></div><div class="kg-bookmark-thumbnail"><img src="https://avatars0.githubusercontent.com/u/11993558?s=400&amp;v=4"></div></a></figure><p>After the results of the above audit are available, the next step is to start working on the data by getting the bucket/object access fixed where ever identified as necessary. This may again be quite a manual task (&amp; a mammoth in our case), depending on how the processes are defined in your org, as it may need context, permissions, execution capabilities/bandwidth etc. to get these fixed. Once all the identified issues are fixed, we would have reached a clean slate. The audits would need to be still run periodically though to ensure that the security team is on top of things should anything come up again after the audits or to keep a track of the progress around the clean up itself. </p><blockquote>The <strong>number</strong> of buckets still existing with <em>unacceptable</em> access gives a great deal of clarity on whether efforts are being invested in the right direction or not. <em>Mangers/leadership please smile :)</em></blockquote><p><u>Revisiting our milestones</u>:</p><ul><li>[✔︎] get a list of all existing buckets/objects, their existing access permissions &amp; possibly their owners &amp; reasons for why these buckets/objects are public</li><li>[✔︎] get a count of buckets/objects that are publicly accessible</li><li>[✔︎] have a script ensuring that this list is regularly updated &amp; maintained</li></ul><p><u>Revisiting our Objective 1: Secure AWS S3 plan</u>:</p><p>[✔︎] Audit &amp; ensure that the existing open buckets/objects fixed/accounted for<br>[ ] Ensure that any new buckets/objects being created are secure<br>[ ] Ensure that the security team is made aware of any insecure buckets/objects existence/creation (if at all) as quickly as possible</p>
                 </div>
             </section>
 
@@ -194,7 +194,7 @@
                                 </div>
                             </li>
                             <li>
-                                <h4><a href="../securing-cloudinfra-intro/index.html">Securing your cloud infra - one step at a time</a></h4>
+                                <h4><a href="../securing-cloudinfra-intro/index.html">Securing Your Cloud Infra</a></h4>
                                 <div class="read-next-card-meta">
                                     <p><time datetime="2020-01-31">31 Jan 2020</time> –
                                         1 min read</p>
@@ -208,6 +208,45 @@
                     </footer>
                 </article>
 
+                <article class="post-card post tag-gratitude tag-rightbrain no-image no-image">
+
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="../yet-another-nice-discussion/index.html">
+
+            <header class="post-card-header">
+                    <div class="post-card-primary-tag">Gratitude</div>
+                <h2 class="post-card-title">Yet Another Nice Discussion</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                    <p>Interview experience with Postman around 2016</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+            
+                    <div class="author-name-tooltip">
+                        qreoct
+                    </div>
+            
+                    <a href="../author/qreoct/index.html" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="../author/qreoct/index.html">qreoct</a></span>
+                <span class="post-card-byline-date"><time datetime="2020-02-11">11 Feb 2020</time> <span class="bull">&bull;</span> 4 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
 
                 <article class="post-card post tag-securing-aws tag-leftbrain no-image no-image">
 
@@ -222,7 +261,7 @@
             </header>
 
             <section class="post-card-excerpt">
-                    <p>What is AWS S3?  Very simply put, it is a service offered by AWS that can be used as storage (called buckets) for different types of files.  So what does it mean to secure AWS S3? It could mean n number of things. One</p>
+                    <p>Securing AWS S3 - Strategy & planning that worked for us</p>
             </section>
 
         </a>
@@ -260,7 +299,7 @@
                 <section class="copyright"><a href="../index.html">nuckingfoob</a> &copy; 2020</section>
                 <nav class="site-footer-nav">
                     <a href="../index.html">Latest Posts</a>
-                    <a href="https://www.facebook.com/ghost" target="_blank" rel="noopener">Facebook</a>
+                    
                     <a href="https://twitter.com/geek_ji" target="_blank" rel="noopener">Twitter</a>
                     <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
                 </nav>
@@ -275,7 +314,7 @@
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
         crossorigin="anonymous">
     </script>
-    <script src="../assets/built/casper.js%3Fv=24bf38ab73"></script>
+    <script src="../assets/built/casper.js%3Fv=33c472117d"></script>
 
     <script>
         // Parse the URL parameter

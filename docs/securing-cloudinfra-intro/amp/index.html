@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>Securing your cloud infra - one step at a time</title>
+    <title>Securing Your Cloud Infra</title>
 
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
@@ -14,18 +14,17 @@
     
     <meta property="og:site_name" content="nuckingfoob" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="Securing your cloud infra - one step at a time" />
-    <meta property="og:description" content="So this blogpost has been sitting in my drafts for indeed a very long time. And I am definitely late to the party, but hopefully the write up is still of some help to someone. Securing any cloud environment, for that matter, is a vast topic &amp;amp; it would be" />
+    <meta property="og:title" content="Securing Your Cloud Infra" />
+    <meta property="og:description" content="A first in a series of blog posts on approaching cloud security around AWS &amp; GCP, with anecdotal examples" />
     <meta property="og:url" content="http://localhost:2368/securing-cloudinfra-intro/" />
     <meta property="article:published_time" content="2020-01-31T16:03:29.000Z" />
-    <meta property="article:modified_time" content="2020-02-08T15:08:21.000Z" />
+    <meta property="article:modified_time" content="2020-02-10T18:20:48.000Z" />
     <meta property="article:tag" content="securing-aws" />
     <meta property="article:tag" content="LeftBrain" />
     
-    <meta property="article:publisher" content="https://www.facebook.com/ghost" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Securing your cloud infra - one step at a time" />
-    <meta name="twitter:description" content="So this blogpost has been sitting in my drafts for indeed a very long time. And I am definitely late to the party, but hopefully the write up is still of some help to someone. Securing any cloud environment, for that matter, is a vast topic &amp;amp; it would be" />
+    <meta name="twitter:title" content="Securing Your Cloud Infra" />
+    <meta name="twitter:description" content="A first in a series of blog posts on approaching cloud security around AWS &amp; GCP, with anecdotal examples" />
     <meta name="twitter:url" content="http://localhost:2368/securing-cloudinfra-intro/" />
     <meta name="twitter:label1" content="Written by" />
     <meta name="twitter:data1" content="qreoct" />
@@ -53,12 +52,12 @@
         "url": "http://localhost:2368/author/qreoct/",
         "sameAs": []
     },
-    "headline": "Securing your cloud infra - one step at a time",
+    "headline": "Securing Your Cloud Infra",
     "url": "http://localhost:2368/securing-cloudinfra-intro/",
     "datePublished": "2020-01-31T16:03:29.000Z",
-    "dateModified": "2020-02-08T15:08:21.000Z",
+    "dateModified": "2020-02-10T18:20:48.000Z",
     "keywords": "securing-aws, LeftBrain",
-    "description": "So this blogpost has been sitting in my drafts for indeed a very long time. And\nI am definitely late to the party, but hopefully the write up is still of some\nhelp to someone.\n\nSecuring any cloud environment, for that matter, is a vast topic &amp; it would be\ndifficult to cover it all in one single blogpost. Hence, I would try to break it\ndown as per a generic approach that I usually take when trying to think of\nsolutions around any given problem. One thing that I have learnt, sort of the\nhard way &amp;",
+    "description": "A first in a series of blog posts on approaching cloud security around AWS &amp; GCP, with anecdotal examples",
     "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "http://localhost:2368/"
@@ -90,7 +89,7 @@
         <article class="post">
 
             <header class="post-header">
-                <h1 class="post-title">Securing your cloud infra - one step at a time</h1>
+                <h1 class="post-title">Securing Your Cloud Infra</h1>
                 <section class="post-meta">
                     <p class="author">by <a href="../../author/qreoct/index.html">qreoct</a></p>
                     <time class="post-date" datetime="2020-01-31">2020-01-31</time>
@@ -98,7 +97,7 @@
             </header>
             <section class="post-content">
 
-                <p>So this blogpost has been sitting in my drafts for indeed a very long time. And I am definitely late to the party, but hopefully the write up is still of some help to someone.</p><p>Securing any cloud environment, for that matter, is a vast topic &amp; it would be difficult to cover it all in one single blogpost. Hence, I would try to break it down as per a generic approach that I usually take when trying to think of solutions around any given problem. One thing that I have learnt, sort of the hard way &amp; I am very grateful for this learning is, </p><ol><li>to identify the actual root cause of the problem</li><li>to <strong>measure what matters  </strong>(<a href="https://books.google.co.in/books/about/Measure_What_Matters.html?id=u2NDDwAAQBAJ&amp;redir_esc=y">excellent read</a> IMHO)</li><li>collaborate (wherever &amp; whenever possible) with devs &amp; systems teams. It makes a security engineer's job a breeze &amp; solutions worthwhile !</li></ol><p>For this post we would <strong>not</strong> focus on identification of the root cause of the problem, since this post is directed towards securing your cloud infra &amp; of course because I would like to keep this post more technical than philosophical. We would <em>assume</em> that we have a problem statement at hand that needs to be solved. </p><p>For this post and (hopefully) a few follow up ones, we would focus on securing AWS, <em>one step at a time.</em> AWS itself has plenty of resources &amp; securing AWS essentially means securing each of these resources, of course depending on what resources you are using out of these. It does not make a lot of sense to try securing s3, for example, if you're not really using it at all. </p><p><u>Problem statement</u>: <em>Secure AWS infrastructure</em> </p><p>If we want to solve the above problem, we would break up the problem into smaller sub problems/objectives. </p><p><u>Objectives</u>: </p><ol><li><em>Secure AWS S3 </em></li><li><em>Secure Ec2 instances</em></li><li><em>Secure IAM</em></li><li><em>Secure EKS</em></li></ol><p>The above is a very limited list. But for now, let us focus on them alone and one at a time. </p><p><strong><u>Credits: </u></strong></p><ul><li><strong>@makash for the constant motivation</strong></li><li><strong>@amolnaik4 for guidance around thought process</strong></li><li><strong>@AjeyGore for introduction to measure what matters</strong></li></ul>
+                <p>So this blogpost has been sitting in my drafts for indeed a very long time. And I am definitely late to the party, but hopefully the write up is still of some help to someone.</p><p>Securing any cloud environment, for that matter, is a vast topic &amp; it would be difficult to cover it all in one single blogpost. Hence, I would try to break it down as per a generic approach that I usually take when trying to think of solutions around any given problem. Also, we would try to have the blogpost designed with 2 things in mind:</p><ul><li>we would approach it one step at a time</li><li>we would try to keep our solutions as unblocking as possible for our devs</li></ul><p>A few things that I have learnt, sort of the hard way &amp; I am very grateful for this learning, is: </p><ol><li>to identify the actual root cause of the problem</li><li>to <strong>measure what matters  </strong>(<a href="https://books.google.co.in/books/about/Measure_What_Matters.html?id=u2NDDwAAQBAJ&amp;redir_esc=y">excellent read</a> IMHO)</li><li>collaborate (wherever &amp; whenever possible) with devs &amp; systems teams. It makes a security engineer's job a breeze &amp; solutions worthwhile !</li></ol><p>For this post we would <strong>not</strong> focus on identification of the root cause of the problem, since this post is directed towards securing your cloud infra &amp; of course because I would like to keep this post more technical than philosophical. We would <em>assume</em> that we have a problem statement at hand that needs to be solved. </p><p>For this post and (hopefully) a few follow up ones, we would focus on securing AWS, <em>one step at a time.</em> AWS itself has plenty of resources &amp; securing AWS essentially means securing each of these resources, of course depending on what resources you are using out of these. It does not make a lot of sense to try securing s3, for example, if you're not really using it at all. </p><p><u>Problem statement</u>: <em>Secure AWS infrastructure</em> </p><p>If we want to solve the above problem, we would break up the problem into smaller sub problems/objectives. </p><p><u>Objectives</u>: </p><ol><li><em>Secure AWS S3 </em></li><li><em>Secure Ec2 instances</em></li><li><em>Secure IAM</em></li><li><em>Secure EKS</em></li></ol><p>The above is a very limited list. But for now, let us focus on them alone and one at a time. </p><hr></hr><p><strong><em><u>Credits</u>:</em></strong></p><ul><li><em>@makash for the constant motivation</em></li><li><em>@amolnaik4 for guidance around thought process</em></li><li><em>@AjeyGore for introduction to measure what matters</em></li></ul>
 
             </section>
 
