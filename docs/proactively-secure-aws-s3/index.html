@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <title>Objective 1: Secure AWS S3</title>
+    <title>Proactively Secure AWS S3</title>
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -18,18 +18,18 @@
     
     <meta property="og:site_name" content="nuckingfoob" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="Objective 1: Secure AWS S3" />
-    <meta property="og:description" content="Securing AWS S3 - Strategy &amp; planning that worked for us" />
-    <meta property="og:url" content="http://localhost:2368/objective-1-secure-aws-s3/" />
-    <meta property="article:published_time" content="2020-02-02T10:05:33.000Z" />
-    <meta property="article:modified_time" content="2020-02-10T18:43:46.000Z" />
+    <meta property="og:title" content="Proactively Secure AWS S3" />
+    <meta property="og:description" content="Using Hashicorp Terraform for provisioning of secure (opinionated) AWS S3 buckets" />
+    <meta property="og:url" content="http://localhost:2368/proactively-secure-aws-s3/" />
+    <meta property="article:published_time" content="2020-02-09T11:21:03.000Z" />
+    <meta property="article:modified_time" content="2020-02-20T17:42:36.000Z" />
     <meta property="article:tag" content="securing-aws" />
     <meta property="article:tag" content="LeftBrain" />
     
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Objective 1: Secure AWS S3" />
-    <meta name="twitter:description" content="Securing AWS S3 - Strategy &amp; planning that worked for us" />
-    <meta name="twitter:url" content="http://localhost:2368/objective-1-secure-aws-s3/" />
+    <meta name="twitter:title" content="Proactively Secure AWS S3" />
+    <meta name="twitter:description" content="Using Hashicorp Terraform for provisioning of secure (opinionated) AWS S3 buckets" />
+    <meta name="twitter:url" content="http://localhost:2368/proactively-secure-aws-s3/" />
     <meta name="twitter:label1" content="Written by" />
     <meta name="twitter:data1" content="qreoct" />
     <meta name="twitter:label2" content="Filed under" />
@@ -56,12 +56,12 @@
         "url": "http://localhost:2368/author/qreoct/",
         "sameAs": []
     },
-    "headline": "Objective 1: Secure AWS S3",
-    "url": "http://localhost:2368/objective-1-secure-aws-s3/",
-    "datePublished": "2020-02-02T10:05:33.000Z",
-    "dateModified": "2020-02-10T18:43:46.000Z",
+    "headline": "Proactively Secure AWS S3",
+    "url": "http://localhost:2368/proactively-secure-aws-s3/",
+    "datePublished": "2020-02-09T11:21:03.000Z",
+    "dateModified": "2020-02-20T17:42:36.000Z",
     "keywords": "securing-aws, LeftBrain",
-    "description": "Securing AWS S3 - Strategy &amp; planning that worked for us",
+    "description": "Using Hashicorp Terraform for provisioning of secure (opinionated) AWS S3 buckets",
     "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "http://localhost:2368/"
@@ -94,7 +94,7 @@
     <li class="nav-author" role="menuitem"><a href="https://www.linkedin.com/in/abhinav-chourasia-gmob-b0642639/">Author</a></li>
 </ul>
 
-                    <span class="nav-post-title dash">Objective 1: Secure AWS S3</span>
+                    <span class="nav-post-title dash">Proactively Secure AWS S3</span>
             </div>
         </div>
     </div>
@@ -123,9 +123,9 @@
                     <a href="../tag/securing-aws/index.html">securing-aws</a>
                 </section>
 
-                <h1 class="post-full-title">Objective 1: Secure AWS S3</h1>
+                <h1 class="post-full-title">Proactively Secure AWS S3</h1>
 
-                <p class="post-full-custom-excerpt">Securing AWS S3 - Strategy &amp; planning that worked for us</p>
+                <p class="post-full-custom-excerpt">Using Hashicorp Terraform for provisioning of secure (opinionated) AWS S3 buckets</p>
 
                 <div class="post-full-byline">
 
@@ -152,8 +152,8 @@
                         <section class="post-full-byline-meta">
                             <h4 class="author-name"><a href="../author/qreoct/index.html">qreoct</a></h4>
                             <div class="byline-meta-content">
-                                <time class="byline-meta-date" datetime="2020-02-02">2 Feb 2020</time>
-                                <span class="byline-reading-time"><span class="bull">&bull;</span> 1 min read</span>
+                                <time class="byline-meta-date" datetime="2020-02-09">9 Feb 2020</time>
+                                <span class="byline-reading-time"><span class="bull">&bull;</span> 5 min read</span>
                             </div>
                         </section>
 
@@ -166,7 +166,7 @@
 
             <section class="post-full-content">
                 <div class="post-content">
-                    <p><a href="https://aws.amazon.com/s3/">What is AWS S3?</a> </p><p>Very simply put, it is a service offered by AWS that can be used as storage (called <em>buckets</em>) for different types of files. </p><p>So what does it mean to secure AWS S3?</p><p>It could mean n number of things. One of the things is to ensure that the buckets &amp; it's contents (objects) are access controlled &amp; we'll focus on this aspect. </p><p><em>(Others could include things like ensuring that the bucket &amp; it's contents are protected against data loss, s3 objects are encrypted at rest, there's logging enabled for the buckets etc. We would not talk about these or any others in this case. Also, AWS by default has options to ensure public access around S3 is taken care of , like disabling public access at the account level itself. We would not talk about this either, as may not always be feasible for every org/use case, like it wasn't in our case) </em></p><h3 id="key-result-no-open-public-buckets-objects"><u>Key result</u>: No open/public buckets/objects</h3><p>We need a measurable key result to ensure that we have been able to achieve our objective. We define our key result as a measure of the number of AWS S3 buckets or any content/s within them that are publicly accessible. So ideally, if we could define <em>zero number of open/public buckets/objects </em>as our criteria to say that we have achieved our objective, nothing like it. </p><p>But of course there could be reasons for certain buckets or objects (contents of a bucket) to be publicly accessible, depending on the business context, which always is/should be the highest priority. Hence our actual key result, to accommodate for the above, becomes:</p><ul><li><em>No open/public buckets/objects, </em></li><li><em>at least not without prior approval from the security team or the information of the security team. </em></li></ul><h3 id="plan"><u>Plan</u></h3><p>Below would be our plan to reach our key result/s &amp; finally achieve our objective too. </p><ol><li>Audit &amp; ensure that the existing open buckets/objects fixed/accounted for</li><li>Ensure that any new buckets/objects being created are secure</li><li>Ensure that the security team is made aware of any insecure buckets/objects existence/creation (if at all) as quickly as possible</li></ol>
+                    <p>In the previous blogpost we explored the status of our AWS S3 by doing audits around it. We spoke to multiple of our key stakeholders, including the devs &amp; the systems teams to understand how could we fit S3 security in the context of our specific organization. While the audits are essential (&amp; an absolutely mandatory) exercise, towards our goal, it is not really scalable. It helps with the clean up task, but doesn't really ensure that more mess is not being dumped on. Hence, it becomes crucial to figure out ways to proactively ensure that any new S3 resource creation follows a certain baseline/benchmark. So with that prelude, let's explore this section with a similar approach like the last one. </p><h3 id="what">What</h3><p>Have a system in place to ensure that any new S3 resources getting created follow a certain security benchmark.</p><h3 id="why">Why</h3><p>To ensure that new S3 resource creations are secure by default as per our contextual definition of security. This consequently leads to getting the <strong>problem of insecure S3 sorted at the root</strong>. </p><h3 id="how">How</h3><p>From the results of the last section we can infer that there are some very specific needs of our devs around AWS S3 requirements. More often that not, a very loosely access controlled S3 resource is not really needed. In the process of the audits, we also made certain rules around buckets, their access &amp; their names. So to have proactive measures implemented, we would define our controls first as a set of rules/policies &amp; then build tooling or systems to facilitate easier adoption of &amp;/or enforcement these policies. And as the last time, we would need measurable criteria to verify if we have achieved what we wanted to or not, which gets us to our milestones listed below.</p><h3 id="milestones">Milestones</h3><ul><li>[ ] A policy document detailing the rules that would define what is considered secure in the context of our organization</li><li>[ ] A system that implements/enforces this policy document</li><li>[ ] Number of violations of the above rules reported in the audits on newly created resources after the proactive system/s are implemented</li></ul><p>We had already created a list of rules in the previous blogpost. In addition to those let us say that there are a couple of more use cases that were identified over a period of time. So our extended rule/policies set now become:</p><ol><li>Only &amp; only the following 3 operations would be allowed onto any newly created bucket: s3:GetObject, s3:PutObject and s3:DeleteObject</li><li>There would be one IAM user for every single bucket who would be allowed the above 3 access permissions onto that bucket &amp; that bucket alone. </li><li>Cross account S3 access would not be allowed</li><li>Every bucket will have a subfolder that would allow any objects inside it to be world/public readable</li><li>All S3 resources would be created only with the provisioned system to do so<br></li></ol><blockquote>Now once again, the above are a very contextual set of rules &amp; policies that depend on each organization. It still makes case for an example.</blockquote><p>The second bit is to think about a system that would technically implement the above policies. One of the ways to do so would be to use <a href="https://www.terraform.io/intro/index.html">Terraform</a>. The details of what it is &amp; how it can be setup &amp; used is quite decently documented in the above link. For our use case, we would make use of the below Terraform script to ensure that any new bucket creation abides by all the rules/policies we identified above. </p><figure class="kg-card kg-bookmark-card"><a class="kg-bookmark-container" href="https://github.com/c0n71nu3/s3ProactiveSecure"><div class="kg-bookmark-content"><div class="kg-bookmark-title">c0n71nu3/s3ProactiveSecure</div><div class="kg-bookmark-description">Terraform for securing AWS S3 proactively (opinionated) - c0n71nu3/s3ProactiveSecure</div><div class="kg-bookmark-metadata"><img class="kg-bookmark-icon" src="https://github.githubassets.com/favicon.ico"><span class="kg-bookmark-author">c0n71nu3</span><span class="kg-bookmark-publisher">GitHub</span></div></div><div class="kg-bookmark-thumbnail"><img src="https://avatars0.githubusercontent.com/u/11993558?s=400&amp;v=4"></div></a></figure><p>Having the terraform script solves our requirement to a big extent. </p><p>The next question, however, that arises is how/who would run this script? This aspect has to be controlled. Giving it away to anyone &amp; everyone would again wind us up in a bad state. One of the ways to do this could be have another layer in between the Terraform script (version controlled), which actually makes the infra changes, and the users who need these S3 buckets. </p><p><u>Pros of this approach</u></p><ol><li>The Terraform script itself would be version controlled &amp; source maintained (with all the respective checks &amp; controls around that system). This means that the credentials to access the underlying infra does not need to be given out to any users at all. It also ensures that only the approved rules, mentioned in the script, are used for actual resource creation. Plus the inherent benefits of audit capabilities packed with it being version controlled.  </li><li>This additional layer would be the one that the user would finally interface with. Hence, all the details of the underlying Terraform can be abstracted out, thus making it very simple for any developers to create an S3 bucket. </li></ol><p><u>Cons of this approach</u> </p><p>It becomes extremely crucial that this additional layer be very tightly controlled, especially in a situation where this system may become a solution for provisioning other infra related resources as well. It needs to have it's own tamper proof, securely maintained, audit trails around which resource creation was triggered by which user. </p><blockquote>There could possibly be many other approaches to achieve the proactive controls depending on your specific context again. </blockquote><p>One such system that readily provides exactly this capability is this awesome tool from GoJek:</p><figure class="kg-card kg-bookmark-card"><a class="kg-bookmark-container" href="https://github.com/gojek/proctor"><div class="kg-bookmark-content"><div class="kg-bookmark-title">gojek/proctor</div><div class="kg-bookmark-description">A Developer-Friendly Automation Orchestrator. Contribute to gojek/proctor development by creating an account on GitHub.</div><div class="kg-bookmark-metadata"><img class="kg-bookmark-icon" src="https://github.githubassets.com/favicon.ico"><span class="kg-bookmark-author">gojek</span><span class="kg-bookmark-publisher">GitHub</span></div></div><div class="kg-bookmark-thumbnail"><img src="https://avatars3.githubusercontent.com/u/29785210?s=400&amp;v=4"></div></a></figure><p>When the terraform script mentioned above is used with the above tool, what it provides (from our use case's perspective) is a command to the user of the form:</p><blockquote>proctor execute create-s3-bucket --name=myBucket --public=myCustomPublicFolder</blockquote><p>and produces as output the same thing as mentioned in <a href="https://github.com/c0n71nu3/s3ProactiveSecure#output">my Github link above</a>. </p><p>Once the above systems are provisioned &amp; made available to the users, the last bit that remains is to ensure that devs (or most users in general) create any S3 resources only through the above system. This would be more of a process driven thing again, which may include removal of, say, AWS console access/capabilities of any/all users. Once again this is quite contextual depending on how things are being managed at a given organization. </p><p>With all of this we are ascertained that any new bucket creations would be as per our defined policies (&amp; technically enforced for the most part). There may be exceptions at times, which would need to be accommodated on a on-demand basis (&amp; perhaps eventually generalized &amp; made a part of the above/another system if needed). Our audits, from the last blog post, are already set up to run as a cron. And using that we can track if the proactive approach, we discussed above, has actually lead to any improvements in the creation of S3 resources. </p><p><u>Revisiting our milestones:</u></p><p>[✔︎] A policy document detailing the rules that would define what is considered secure in the context of our organization<br>[✔︎] A system that implements/enforces this policy document<br>[✔︎] Number of violations of the above rules reported in the audits on newly created resources after the proactive system/s are implemented</p><p><u>Revisiting our Objective 1: Secure AWS S3 plan</u>:</p><p>[✔︎] Audit &amp; ensure that the existing open buckets/objects fixed/accounted for<br>[✔︎] Ensure that any new buckets/objects being created are secure<br>[ ] Ensure that the security team is made aware of any insecure buckets/objects existence/creation (if at all) as quickly as possible</p><hr><p><strong><strong><em><em><u>Credits</u>:</em></em></strong></strong></p><ul><li>@<em>vjdhama for guidance around Terraform</em></li></ul>
                 </div>
             </section>
 
@@ -187,17 +187,17 @@
                     <div class="read-next-card-content">
                         <ul>
                             <li>
-                                <h4><a href="../proactively-secure-aws-s3/index.html">Proactively Secure AWS S3</a></h4>
-                                <div class="read-next-card-meta">
-                                    <p><time datetime="2020-02-09">9 Feb 2020</time> –
-                                        5 min read</p>
-                                </div>
-                            </li>
-                            <li>
                                 <h4><a href="../audit-aws-s3/index.html">Audit AWS S3</a></h4>
                                 <div class="read-next-card-meta">
                                     <p><time datetime="2020-02-08">8 Feb 2020</time> –
                                         5 min read</p>
+                                </div>
+                            </li>
+                            <li>
+                                <h4><a href="../objective-1-secure-aws-s3/index.html">Objective 1: Secure AWS S3</a></h4>
+                                <div class="read-next-card-meta">
+                                    <p><time datetime="2020-02-02">2 Feb 2020</time> –
+                                        1 min read</p>
                                 </div>
                             </li>
                             <li>
@@ -214,6 +214,46 @@
                             →</a>
                     </footer>
                 </article>
+
+                <article class="post-card post tag-gratitude tag-rightbrain no-image no-image">
+
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="../yet-another-nice-discussion/index.html">
+
+            <header class="post-card-header">
+                    <div class="post-card-primary-tag">Gratitude</div>
+                <h2 class="post-card-title">Yet Another Nice Discussion</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                    <p>Interview experience with Postman around 2016</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+            
+                    <div class="author-name-tooltip">
+                        qreoct
+                    </div>
+            
+                    <a href="../author/qreoct/index.html" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="../author/qreoct/index.html">qreoct</a></span>
+                <span class="post-card-byline-date"><time datetime="2020-02-11">11 Feb 2020</time> <span class="bull">&bull;</span> 4 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
 
                 <article class="post-card post tag-securing-aws tag-leftbrain no-image no-image">
 
@@ -248,46 +288,6 @@
             <div class="post-card-byline-content">
                 <span><a href="../author/qreoct/index.html">qreoct</a></span>
                 <span class="post-card-byline-date"><time datetime="2020-02-08">8 Feb 2020</time> <span class="bull">&bull;</span> 5 min read</span>
-            </div>
-        </footer>
-
-    </div>
-
-</article>
-
-                <article class="post-card post tag-securing-aws tag-leftbrain no-image no-image">
-
-
-    <div class="post-card-content">
-
-        <a class="post-card-content-link" href="../securing-cloudinfra-intro/index.html">
-
-            <header class="post-card-header">
-                    <div class="post-card-primary-tag">securing-aws</div>
-                <h2 class="post-card-title">Securing Your Cloud Infra</h2>
-            </header>
-
-            <section class="post-card-excerpt">
-                    <p>A first in a series of blog posts on approaching cloud security around AWS & GCP, with anecdotal examples</p>
-            </section>
-
-        </a>
-
-        <footer class="post-card-meta">
-            <ul class="author-list">
-                <li class="author-list-item">
-            
-                    <div class="author-name-tooltip">
-                        qreoct
-                    </div>
-            
-                    <a href="../author/qreoct/index.html" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
-</a>
-                </li>
-            </ul>
-            <div class="post-card-byline-content">
-                <span><a href="../author/qreoct/index.html">qreoct</a></span>
-                <span class="post-card-byline-date"><time datetime="2020-01-31">31 Jan 2020</time> <span class="bull">&bull;</span> 1 min read</span>
             </div>
         </footer>
 
