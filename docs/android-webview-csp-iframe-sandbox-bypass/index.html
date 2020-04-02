@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Android Webview Exploited</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="../assets/built/screen.css%3Fv=a09527745f.css" />
+
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="canonical" href="index.html" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="amp/index.html" />
+    
+    <meta property="og:site_name" content="nuckingfoob" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Android Webview Exploited" />
+    <meta property="og:description" content="How an android app can bypass CSP, iframe sandbox attributes, etc. to compromise the page getting loaded in the webview despite the classic protections in place." />
+    <meta property="og:url" content="http://localhost:2368/android-webview-csp-iframe-sandbox-bypass/" />
+    <meta property="article:published_time" content="2020-03-24T07:23:33.000Z" />
+    <meta property="article:modified_time" content="2020-04-02T14:40:58.000Z" />
+    <meta property="article:tag" content="BackToBasics" />
+    <meta property="article:tag" content="LeftBrain" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Android Webview Exploited" />
+    <meta name="twitter:description" content="How an android app can bypass CSP, iframe sandbox attributes, etc. to compromise the page getting loaded in the webview despite the classic protections in place." />
+    <meta name="twitter:url" content="http://localhost:2368/android-webview-csp-iframe-sandbox-bypass/" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="qreoct" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="BackToBasics, LeftBrain" />
+    <meta name="twitter:site" content="@geek_ji" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "nuckingfoob",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "http://localhost:2368/favicon.ico",
+            "width": 48,
+            "height": 48
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "qreoct",
+        "url": "http://localhost:2368/author/qreoct/",
+        "sameAs": []
+    },
+    "headline": "Android Webview Exploited",
+    "url": "http://localhost:2368/android-webview-csp-iframe-sandbox-bypass/",
+    "datePublished": "2020-03-24T07:23:33.000Z",
+    "dateModified": "2020-04-02T14:40:58.000Z",
+    "keywords": "BackToBasics, LeftBrain",
+    "description": "How an android app can bypass CSP, iframe sandbox attributes, etc. to compromise the page getting loaded in the webview despite the classic protections in place.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:2368/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 3.4" />
+    <link rel="alternate" type="application/rss+xml" title="nuckingfoob" href="../rss/index.html" />
+
+</head>
+<body class="post-template tag-backtobasics tag-leftbrain">
+
+    <div class="site-wrapper">
+
+        
+
+<header class="site-header">
+    <div class="outer site-nav-main">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left-wrapper">
+        <div class="site-nav-left">
+                <a class="site-nav-logo" href="../index.html">nuckingfoob</a>
+            <div class="site-nav-content">
+                    <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="../index.html">Home</a></li>
+    <li class="nav-leftbrain" role="menuitem"><a href="../tag/leftbrain/index.html">LeftBrain</a></li>
+    <li class="nav-rightbrain" role="menuitem"><a href="../tag/rightbrain/index.html">RightBrain</a></li>
+    <li class="nav-author" role="menuitem"><a href="https://www.linkedin.com/in/abhinav-chourasia-b0642639/">Author</a></li>
+</ul>
+
+                    <span class="nav-post-title dash">Android Webview Exploited</span>
+            </div>
+        </div>
+    </div>
+    <div class="site-nav-right">
+            <div class="social-links">
+                    <a class="social-link social-link-tw" href="https://twitter.com/geek_ji" title="Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+</a>
+            </div>
+                <a class="rss-button" href="https://feedly.com/i/subscription/feed/http://localhost:2368/rss/" title="RSS" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg>
+</a>
+
+    </div>
+</nav>
+    </div>
+</div></header>
+
+
+<main id="site-main" class="site-main outer">
+    <div class="inner">
+
+        <article class="post-full post tag-backtobasics tag-leftbrain no-image no-image">
+
+            <header class="post-full-header">
+
+                <section class="post-full-tags">
+                    <a href="../tag/backtobasics/index.html">BackToBasics</a>
+                </section>
+
+                <h1 class="post-full-title">Android Webview Exploited</h1>
+
+                <p class="post-full-custom-excerpt">How an android app can bypass CSP, iframe sandbox attributes, etc. to compromise the page getting loaded in the webview despite the classic protections in place.</p>
+
+                <div class="post-full-byline">
+
+                    <section class="post-full-byline-content">
+
+                        <ul class="author-list">
+                            <li class="author-list-item">
+
+                                <div class="author-card">
+                                    <div class="author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</div>
+                                    <div class="author-info">
+                                        <h2>qreoct</h2>
+                                        <p>Read <a href="../author/qreoct/index.html">more posts</a> by this author.</p>
+                                    </div>
+                                </div>
+
+                                <a href="../author/qreoct/index.html" class="author-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+
+                            </li>
+                        </ul>
+
+                        <section class="post-full-byline-meta">
+                            <h4 class="author-name"><a href="../author/qreoct/index.html">qreoct</a></h4>
+                            <div class="byline-meta-content">
+                                <time class="byline-meta-date" datetime="2020-03-24">24 Mar 2020</time>
+                                <span class="byline-reading-time"><span class="bull">&bull;</span> 20 min read</span>
+                            </div>
+                        </section>
+
+                    </section>
+
+
+                </div>
+            </header>
+
+
+            <section class="post-full-content">
+                <div class="post-content">
+                    <p>There are plenty of articles explaining the security issues with <a href="https://developer.android.com/guide/webapps/webview">android webview</a>, like <a href="https://proandroiddev.com/android-webviews-1cbe1ffb7a2b">this article</a> &amp; <a href="https://resources.infosecinstitute.com/android-hacking-security-part-7-attacks-android-webviews/#gref">this one</a>. Many of these resources talk about the risks that an untrusted page, loaded inside a webview, poses to the underlying app. The threats become more prominent especially when <a href="https://developer.android.com/guide/webapps/webview#EnablingJavaScript"><em>javascript</em>  and/or the <em>javascript interface</em></a> is enabled on the webview. </p><p>In short, having <em>javascript enabled</em> &amp; not properly fortified allows for execution of arbitrary javascript in the context of the loaded page, making it quite similar to any other page that may be vulnerable to an XSS. And again, very simply put, having the <em>javascript interface enabled</em> allows for potential code execution in the context of the underlying android app. </p><p>In most of the cases, from whatever I came across, the situation was:</p><p><strong>Victim</strong>: The underlying android app inside whose webview a page would open either from it's own domain or from an external source/domain.</p><p><strong>Attacker</strong>: The attacker was the entity external to the app. Like an actor exploiting a potential XSS on the page loaded from the app's domain. Or the third party domain, from where the page is being loaded inside the webview, itself acting malicious.</p><p><strong>Attack vector</strong>: The vulnerable/malicious page loaded in the the webview. (through the abuse of the insecure implementations of some APIs)</p><p>This blog describes a situation wherein the tables stood turned. </p><blockquote>This time the victim was not the underlying app, but the page itself that was being loaded in the webview. The attacker was the the underlying android app, in whose webview the page was being loaded. The attack vector still remained the same as highlighted above. </blockquote><h3 id="the-story-line">The story line</h3><p>A certain product needs to integrate with a <em>huge </em>business. Let us call this <em>huge </em>business as <code><strong>BullyGiant</strong></code> &amp; the certain product as <code><strong>AppAwesome</strong></code> from this point on.  </p><p>Many users have an account on both AppAwesome &amp; also on BullyGiant. The flow involves such users of BullyGiant to check out on their payments page with AppAwesome. Every transaction on AppAwesome requires to be authenticated &amp; authorized by the user by entering their password on the <em>AppAwesome's checkout page,</em> which appears before any transaction is allowed to go through. </p><p>AppAwesome cares about the security of it's customers. So it proposes the below security measures to anyone who wants to integrate with them, especially around AppAwesome's checkout page. </p><ol><li>Loading of the checkout page using AppAwesome's SDK. All of the page &amp; it's contents are sandboxed &amp; controlled by the SDK. This approach allows for maximum security &amp; the best user experience. </li><li>Loading of the checkout page on the underlying browser (or custom chrome tabs, if available). This approach again has quite decent security (limited by of course the underlying browser's security) but not a very good user experience. </li><li>Loading of the checkout page in the webview of the integrating app. This is comparatively the most insecure of the above proposals, although offers a better user experience than the second approach mentioned above.</li></ol><p>Now the deal is that AppAwesome is really very keen on securing their own customers' financial data &amp; hence very strongly recommends usage of their SDK. BullyGiant on the other hand, for some reason, (hopefully justified) does not really want to abide by the secure integration proposals by AppAwesome. AppAwesome does have a choice to deny any integration with BullyGiant. However, this integration is really crucial for AppAwesome to provide a superior user experience to it's own users &amp; <em>in fact even more crucial for AppAwesome to stay in the game. </em></p><p>So AppAwesome gives in &amp; agrees to integrate with BullyGiant succumbing to their terms of integration, i.e. using the least secure webview approach. The only things that protect AppAwesome's customers now is the <em>trust </em>that AppAwesome has on BullyGiant, which is somewhat also covered through the legal contracts between AppAwesome &amp; BullyGiant. That's all. </p><h2 id="technical-analysis-tl-dr-">Technical analysis (TL;DR)</h2><blockquote><em><strong>Thanks:</strong> <a href="https://twitter.com/bnchandrapal?s=20">Badshah</a> &amp; <a href="https://twitter.com/_AnoopSS?s=20">Anoop</a> for helping with the execution of the attack idea. Without your help, this blog post would not have been possible, at least not while it's still relevant :) </em></blockquote><p>Below is a tech analysis of why webview is a bad idea. It talks about how can a spurious (or compromised) app abuse webview features to extract sensitive data from the page loaded inside the webview, despite the many security mechanisms that the page, being loaded in the webview, might have implemented. We discuss in details, with <em>many</em> demos, how CSP, iframe sandbox etc. may be bypassed in android webview. Every single demo has a linked code base on my Github so they could be tried out first hand. Also, the below generic scheme is followed (not strictly in that order) throughout the blog:</p><ol><li> A simple demo of the underlying concepts on the browser &amp; android webview</li><li>Addition of security features to the underlying concepts &amp; then demo of the same on the browser &amp; android webview<br> </li></ol><blockquote><strong>NB: </strong>Please ignore all other potential security issues that might be there with the code base/s</blockquote><h3 id="case-1-no-protection-mechanisms">Case 1: No protection mechanisms</h3><p><u>Apps used in this section:</u></p><ol><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-vanilla">AppAwesome</a></li><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-vanilla">BullyGiant</a></li></ol><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-vanilla">AppAwesome</a> when accessed from a normal browser:</p><!--kg-card-begin: markdown--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss3.png">
+<img src="../content/images/2020/03/ss3.png" width="200"/>
+<figcaption font-size="1px">Vanilla AppAwesome Landing Page - Browser</figcaption>
+</a>
+</figure><!--kg-card-end: markdown--><p>And on submitting the above form:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss4.png">
+<img src="../content/images/2020/03/ss4.png" width="200"/>
+<figcaption font-size="1px">Vanilla AppAwesome Checkout Page -Browser</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-vanilla">AppAwesome</a> when accessed from <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-vanilla">BullyGiant</a> app:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/screen1-2.png">
+<img src="../content/images/2020/03/screen1-2.png" width="200"/>
+<figcaption font-size="1px">Vanilla AppAwesome Page - Android Webview</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>Notice the <strong>Authenticate Payment</strong> web page is loaded inside a webview of the <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-vanilla">BullyGiant</a> app.</p><p>And on submitting the form above:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/scree2.png">
+<img src="../content/images/2020/03/scree2.png" width="200"/>
+<figcaption font-size="1px">Vanilla AppAwesome Page - Android Webview</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>Notice that clicking on the <code>Submit</code> button also displays the content of the password field as a <code>toast message</code> on <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-vanilla">BullyGiant</a>. This proves how the underlying app may be able to sniff any data (sensitive or otherwise) from the page loaded in <strong>it's</strong> webview. </p><h3 id="under-the-bullygiant-hood">Under the <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-vanilla">BullyGiant</a> hood</h3><p>The juice of why BullyGiant was able to sniff password field out from the webview is because it is in total control of it's own webview &amp; hence can change the properties of the webview, listen to events etc. That is exactly what it is doing. It is </p><ol><li><a href="https://developer.android.com/guide/webapps/webview#EnablingJavaScript">enabling javascript</a> on it's webview &amp; </li><li>then it is listening for <a href="https://developer.android.com/reference/android/webkit/WebViewClient.html#onPageFinished(android.webkit.WebView,%20java.lang.String)">onPageFinished</a> event</li></ol><p>Snippet from <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-vanilla">BullyGiant</a>:</p><!--kg-card-begin: markdown--><pre><code>    ...
+    final WebView mywebview = (WebView) findViewById(R.id.webView);
+    mywebview.clearCache(true);
+    mywebview.loadUrl(&quot;http://192.168.1.38:31337/home&quot;);
+    mywebview.getSettings().setJavaScriptEnabled(true);
+    mywebview.setWebChromeClient(new WebChromeClient());
+    mywebview.addJavascriptInterface(new AppJavaScriptProxy(this), &quot;androidAppProxy&quot;);
+    mywebview.setWebViewClient(new WebViewClient(){
+        @Override
+        public void onPageFinished(WebView view, String url) {...}
+    ...</code></pre>
+<!--kg-card-end: markdown--><p>Note that there is <code>addJavascriptInterface</code> as well. This is what many blogs (quoted in the beginning of this blog) talk about where the loaded web page can potentially be harmful to the underlying app. In our use case however, it is not of much consequence (from that perspective). All that it is used for is to show that BullyGiant could read the contents of the page loaded in the webview. It does so by sending the read content back to android (that's where the <code>addJavascriptInterface</code>  is used) &amp; having it displayed as a toast message. </p><p>The other important bit in the BullyGiant code base is the over ridden <em>onPageFinished() </em>:</p><!--kg-card-begin: markdown--><pre><code>    ...
+    super.onPageFinished(view, url);
+    mywebview.loadUrl(&quot;javascript:var button = document.getElementsByName(\&quot;submit\&quot;)[0];button.addEventListener(\&quot;click\&quot;, function(){ androidAppProxy.showMessage(\&quot;Password : \&quot; + document.getElementById(\&quot;password\&quot;).value); return false; },false);&quot;);
+    ...
+</code></pre>
+<!--kg-card-end: markdown--><p>That's where the javascript to read the password filed from the DOM is <em>injected </em>into the page loaded inside the webview.</p><h3 id="the-story-line-continued-">The story line continued...</h3><p>AppAwesome came about with the below solutions to prevent the web page from being read by the underlying app:</p><h3 id="suggestion-1-use-csp">Suggestion #1: Use CSP</h3><p>Use <code>CSP</code> to prevent BullyGiant from executing any javascript whatsoever inside the page loaded in the iframe</p><h3 id="suggestion-2-use-iframe-sandbox">Suggestion #2: Use Iframe Sandbox</h3><p>Load the sensitive page inside of an iframe on the main page in the webview. Use <code>iframe sandbox</code> to restrict any interactions between the parent window/page &amp; the iframe content. </p><p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP">CSP</a> is a mechanism to prevent execution of  untrusted javascript inside a web page. While the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#attr-sandbox">sandbox attribute of iframe</a> is a way to tighten the controls of the page within an iframe. It's very well explained in many resources like <a href="https://www.html5rocks.com/en/tutorials/security/sandboxed-iframes/">here</a>. </p><p>With all the above restrictions imposed, our goal now would be to see if BullyGiant can still access the AppAwesome page loaded inside the webview or not. We would go about analyzing how each of the suggested solutions work in a normal browser &amp; in a webview &amp; how could BullyGiant access the loaded pages if at all. </p><h3 id="exploring-csp-with-inline-js">Exploring CSP With Inline JS</h3><p><u>Apps used in this section:</u></p><ol><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-vanilla-inlineJS">AppAwesome</a></li><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-vanilla-inlineJS">BullyGiant</a></li></ol><p>Before moving on to the demo of CSP implementation &amp; it's effect/s on Android Webview, let's look at how a non-CSP page behaves in the normal (non-webview) browser &amp; a webview. </p><p>To demo this we have added an inline JS that would <em>alert 1 </em>on clicking of the submit button before proceeding to the success checkout page. <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-vanilla-inlineJS">AppAwesome</a> code snippet:</p><!--kg-card-begin: markdown--><pre><code>&lt;!DOCTYPE HTML&gt;
+    ...
+    &lt;script type=&quot;text/javascript&quot;&gt;
+      function f(){
+        alert(1);
+      }
+    &lt;/script&gt;
+    ...
+      &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; name=&quot;submit&quot; name=&quot;submit&quot; onclick=&quot;f();&quot;&gt;
+    ...
+&lt;/html&gt;
+</code></pre>
+<!--kg-card-end: markdown--><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-vanilla-inlineJS">AppAwesome</a> when accessed from the browser &amp; when <em>Submit </em>button is clicked:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss7.png">
+<img src="../content/images/2020/03/ss7.png" width="600"/>
+<figcaption font-size="1px">Vanilla AppAwesome Page - Inline JS => Firefox 74.0</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-vanilla-inlineJS">AppAwesome</a> when accessed from <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-vanilla-inlin">BullyGiant</a> app:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss8.png">
+<img src="../content/images/2020/03/ss8.png" width="200"/>
+<figcaption font-size="1px">Vanilla AppAwesome Page - Inline JS => Android Webview</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>The above suggests that so far there is no change in how the page is treated by the 2 environments. Now let's check the change in behavior (if at all) when CSP headers are implemented. </p><h3 id="with-csp-implemented">With CSP Implemented</h3><p><u>Apps used in this section:</u></p><ol><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-CSP-inlineJS">AppAwesome</a></li><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-vanilla-inlineJS">BullyGiant</a></li></ol><h3 id="browser">Browser</h3><p>A quick demo of these features on a traditional browser (not webview) suggests that these controls are indeed useful (when implemented the right way) with what they are intended for.</p><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-CSP-inlineJS">AppAwesome</a> when accessed from a browser:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss5.png">
+<img src="../content/images/2020/03/ss5.png" width="600"/>
+<figcaption font-size="1px">CSP AppAwesome page - Inline JS => Firefox 74.0</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>Notice the <code>Content Security Policy</code> violations. These violations happen because of the CSP response headers, returned by the backend &amp; enforced by the browser.</p><p>Response headers from <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-CSP-inlineJS">AppAwesome</a>:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss6-1.png">
+<img src="../content/images/2020/03/ss6-1.png" width="600"/>
+<figcaption font-size="1px">CSP AppAwesome page - Inline JS => Firefox 74.0</figcaption>
+</a>
+</figure><!--kg-card-end: html--><h3 id="android-webview">Android Webview</h3><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-CSP-inlineJS">AppAwesome</a> when accessed from <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-vanilla-inlineJS">BullyGiant</a> gives the same <em>Authenticate Payment</em> page as above <em>&amp; the exact same CSP errors too</em>! This can be seen from the below screenshot of a remote debugging session taken from Chrome 80.0:</p><p>(<em>Firefox was not chosen for remote debugging because I was lazy to set up remote debugging on Firefox. Firefox set up on the AVD was required too :( as per <a href="about:debugging#/setup">this</a> from the FF settings page. Also further down for all the demos we use adb logs instead of remote debugging sessions to show browser console messages</em>)</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss9.png">
+<img src="../content/images/2020/03/ss9.png" width="700"/>
+<figcaption font-size="1px">On Google Chrome 80.0</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>Hence, we see that CSP does prevent execution of inline JS inside android webview, very much like a normal browser does. </p><h3 id="exploring-csp-with-injected-js">Exploring CSP With Injected JS</h3><p><u>Apps used in this section:</u></p><ol><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-vanilla-injectedJS">AppAwesome</a> </li><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/withXSSAuditorDisabled">AppAwesome (with XSS-Auditor disabled)</a></li><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-vanilla-injectedJS/">BullyGiant (without XSS payload)</a> </li><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/withXSSPayload">BullyGiant (with XSS payload)</a></li></ol><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-vanilla-injectedJS">AppAwesome</a> has been made deliberately vulnerable to a <a href="https://portswigger.net/web-security/cross-site-scripting/reflected">reflected XSS</a> by adding a query parameter, <em>name</em>, to the home page. This param is vulnerable to reflected XSS. Also, all inline JS has been removed from this page to further emphasize on CSP's impact on injected JS.</p><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-vanilla-injectedJS">AppAwesome</a> when accessed from the browser while the <em>name</em> query parameter's value is <em>John Doe:</em></p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss10.png">
+<img src="../content/images/2020/03/ss10.png" width="500"/>
+<figcaption font-size="1px">On Google Chrome 80.0</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>Now, for the sake of the demo, we would exploit the XSS vulnerable <em>name </em>query param to add an onclick event to the <em>Submit</em> button such that clicking it would alert "<em>injected 1"</em></p><p>XSS exploit payload</p><!--kg-card-begin: markdown--><pre><code>&lt;body onload=&quot;f()&quot;&gt;&lt;script type=&quot;text/javascript&quot;&gt;function f(){var button=document.getElementsByName(&quot;submit&quot;)[0];button.addEventListener(&quot;click&quot;, function(){ alert(&quot;injected 1&quot;); return false; },false);}&lt;/script&gt;
+</code></pre>
+<!--kg-card-end: markdown--><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-vanilla-injectedJS">AppAwesome</a> when accessed from the browser &amp; exploited with the above payload (in <em>name </em>query parameter):</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss11.png">
+<img src="../content/images/2020/03/ss11.png" width="600"/>
+<figcaption font-size="1px">Vanilla AppAwesome Page - Exploited XSS => Firefox</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-vanilla-injectedJS">AppAwesome</a> when accessed from <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/withXSSPayload">BullyGiant</a>, without exploiting the XSS:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss12.png">
+<img src="../content/images/2020/03/ss12.png" width="200"/>
+<figcaption font-size="1px">Vanilla AppAwesome Page - Vulnerable param => Android Webview</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-vanilla-injectedJS">AppAwesome</a> when accessed from <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/withXSSPayload">BullyGiant</a>, while attempting to exploit the XSS, produces the same screen as above, however, contrary to the script injection that was successful in case of a normal browser, this time clicking on the <em>Submit</em> button didn't really execute the payload at all. We were instead taken directly to the checkout page. Adb logs however did produce an interesting message as shown below:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss13.png">
+<img src="../content/images/2020/03/ss13.png" width="900"/>
+<figcaption font-size="1px">Vanilla AppAwesome Page - Exploited XSS => Android Webview</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>The adb log messages is:</p><!--kg-card-begin: markdown--><pre><code>03-27 12:29:33.672 26427-26427/com.example.webviewinjection I/chromium: [INFO:CONSOLE(9)] &quot;The XSS Auditor refused to execute a script in 'http://192.168.1.35:31337/home?name=&lt;body onload=&quot;f()&quot;&gt;&lt;script type=&quot;text/javascript&quot;&gt;function f(){var button=document.getElementsByName(&quot;submit&quot;)[0];button.addEventListener(&quot;click&quot;, function(){ alert(&quot;injected 1&quot;); return false; },false);}%3C/script%3E' because its source code was found within the request. The auditor was enabled as the server sent neither an 'X-XSS-Protection' nor 'Content-Security-Policy' header.&quot;, source: http://192.168.1.35:31337/home?name=&lt;body onload=&quot;f()&quot;&gt;&lt;script type=&quot;text/javascript&quot;&gt;function f(){var button=document.getElementsByName(&quot;submit&quot;)[0];button.addEventListener(&quot;click&quot;, function(){ alert(&quot;injected 1&quot;); return false; },false);}%3C/script%3E (9)
+</code></pre>
+<!--kg-card-end: markdown--><p>So without even any explicit protection mechanism/s (like CSP or iframe sandbox), android webview seems to have a default protection mechanism called <em><a href="https://www.chromium.org/developers/design-documents/xss-auditor">XSS Auditor</a>.</em> This however has nothing to do with our use case. Moreover, it hinders with our demo as well.  Hence, for now, for the sake of this demo, we would make <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/withXSSAuditorDisabled">AppAwesome</a> return <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection">X-XSS-Protection</a> HTTP header, as below, to take care of this issue.</p><!--kg-card-begin: markdown--><p><code>X-XSS-Protection: 0</code></p>
+<!--kg-card-end: markdown--><blockquote><strong>Note</strong>: As an auxiliary, XSS Auditor would also be accounted for a bypass towards the end of the blog :)</blockquote><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/withXSSAuditorDisabled">AppAwesome</a> when accessed now from <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/withXSSPayload">BullyGiant</a>, while attempting to exploit the XSS:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss13-2.png">
+<img src="../content/images/2020/03/ss13-2.png" width="200"/>
+<figcaption font-size="1px">Vanilla AppAwesome Page - Exploited XSS => Android Webview</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>Thus we see that the XSS payload works equally well even in the Android Webview <em>(of course with the XSS Auditor intentionally disabled)</em>.</p><blockquote><strong>Note</strong>: If the victim is the page getting loaded inside webview, it makes absolute sense that it's backend would never ever return any HTTP headers, like the above, that possibly weakens the security of the page itself. We will see why this is irrelevant further down.</blockquote><p>The other thing to note is that there was a subtle difference between <em>how </em>the payloads were injected in the vulnerable parameter in both the cases, the browser &amp; the webview. And it is important to take note of it because it highlights the very premise of this blog post. In case of the browser, the attacker is an external party, who could send the JS payload to be able to exploit the vulnerable <em>name </em>parameter. Whereas in case of the android webview, the underlying app itself is the malicious actor &amp; hence it is injecting the JS payload in the vulnerable <em>name </em>parameter before loading the page in it's own webview. This difference would be more prominent when we analyze further cases &amp; how the malicious app leverages it's capabilities to exploit the page loaded in the webview. </p><h3 id="with-csp-implemented-1">With CSP Implemented</h3><p><u>Apps used in this section:</u></p><ol><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-CSP-injectedJS">AppAwesome</a></li><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/withXSSPayload">BullyGiant (with XSS payload)</a> </li><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-CSP-injectedJS">BullyGiant (with CSP bypass)</a></li><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/cspReadPasswordField">BullyGiant (with CSP bypass reading the password field)</a></li></ol><h3 id="browser-1">Browser</h3><p>With the appropriate CSP headers in place, inline JS does not work in browsers as we saw above. What would happen if javascript is injected in the page that has CSP headers? Would it still have CSP violation errors? </p><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-CSP-injectedJS">AppAwesome</a>, with vulnerable <em>name </em>parameter &amp; <em>XSS-Auditor </em>disabled, when accessed in the browser &amp; the <em>name </em>query param exploited with the same XSS payload (as earlier):</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss16.png">
+<img src="../content/images/2020/03/ss16.png" width="600"/>
+<figcaption font-size="1px">CSP AppAwesome Page - Exploited XSS => Firefox</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>The console error messages are the same as with inline JS. Injected JS does not get executed as the CSP policy prevents it. Would the same XSS payload work when the above CSP page is loaded inside Android Webview? </p><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-CSP-injectedJS">AppAwesome</a> when accessed from <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/withXSSPayload">BullyGiant</a> app that injects the JS payload in the vulnerable <em>name </em>parameter before loading the page in the android webview:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss15.png">
+<img src="../content/images/2020/03/ss15.png" width="600"/>
+<figcaption font-size="1px">CSP AppAwesome Page - Exploited XSS => Android Webview</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>The same adb log is produced confirming that CSP works well in case of even injected javascript payload inside a webview. </p><blockquote><strong>Note</strong>: In the CSP related examples above (browser or webview) note that CSP kicks in before the page actually gets loaded. </blockquote><p>With the above note, some interrelated questions that arise are:</p><ol><li>What would happen if BullyGiant wanted to access the contents of the page <em>after</em> it get successfully loaded? </li><li>Could it add javascript to the already loaded page, as if this were being done locally? </li><li>Would CSP still interfere?</li></ol><p><strong>Since the webview is under the total control of the underlying app</strong>, in our case BullyGiant, &amp; since there are android APIs available to control the lifecycle of pages loaded inside the webview, BullyGiant could pretty much do whatever it wants with the loaded page's contents. So instead of injecting the javascript payload in the vulnerable parameter, as in the above example, BullyGiant may choose to instead inject it directly in the page itself <em>after </em>the page is loaded, without having the need to actually exploit the vulnerable <em>name </em>parameter at all. </p><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-CSP-injectedJS">AppAwesome</a> when accessed from <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-CSP-injectedJS">BullyGiant</a> that implements the above trick to achieve JS execution despite CSP:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss16-2.png">
+<img src="../content/images/2020/03/ss16-2.png" width="600"/>
+<figcaption font-size="1px">CSP AppAwesome Page - Exploited XSS => Android Webview</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>The logs still show the below message:</p><!--kg-card-begin: markdown--><pre><code>03-28 17:29:28.372 13282-13282/com.example.webviewinjection D/WebView Console Error:: Refused to execute inline script because it violates the following Content Security Policy directive: &quot;script-src 'self' http://192.168.1.35:31337&quot;. Either the 'unsafe-inline' keyword, a hash ('sha256-JkQD9ejf-ohUEh1Jr6C22l1s4TUkBIPWNmho0FNLGr0='), or a nonce ('nonce-...') is required to enable inline execution.
+03-28 17:29:28.396 13282-13282/com.example.webviewinjection D/WebView Console Error:: Refused to execute inline event handler because it violates the following Content Security Policy directive: &quot;script-src 'self' http://192.168.1.35:31337&quot;. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution.
+</code></pre>
+<!--kg-card-end: markdown--><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-CSP-injectedJS">BullyApp</a> still injected XSS payload in the vulnerable <em>name </em>parameter <em>(we left it there to ensure that CSP was still in action). </em>The above logs are a result &amp; proof of that. </p><p>Code snippet from <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-CSP-injectedJS">BullyGiant</a> that does the trick:</p><!--kg-card-begin: markdown--><pre><code>        ...
+        mywebview.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                mywebview.loadUrl(
+                        &quot;javascript:var button = document.getElementsByName(\&quot;submit\&quot;)[0];button.addEventListener(\&quot;click\&quot;, function(){ alert(\&quot;injected 1\&quot;); },false);&quot;
+                );
+            }
+        });
+        ...
+</code></pre>
+<!--kg-card-end: markdown--><p>The above PoC shows execution of simple JS payload that just pops up an alert box. Any other more complex JS could be executed as well, like reading the contents of the <em>password </em>field on the page using the below payload</p><!--kg-card-begin: markdown--><p><code>var secret = document.getElementById(&quot;password&quot;).value; alert(secret);</code></p>
+<!--kg-card-end: markdown--><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-CSP-injectedJS">AppAwesome</a> when accessed from <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/cspReadPasswordField">BullyGiant</a> that attempts to read the <em>password </em>field using the above payload:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss17.png">
+<img src="../content/images/2020/03/ss17.png" width="600"/>
+<figcaption font-size="1px">CSP AppAwesome Page - Exploited XSS => Android Webview</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>So the questions above get answered. Also, it is indicative of an even more interesting question now:</p><blockquote>Since BullyApp is in total control of the webview &amp; thus the page loaded within it, would it also be able to modify the whole HTTP response itself ?</blockquote><p>We will tackle the above question with yet another example. In fact, this time we would talk about the second suggestion around <em>iframe sandbox</em> and see if the answer to the above question could be demoed with that. Also, we had left out the whole X-XSS-Protection header thing for later. That part will also get covered with the following experiments.</p><h3 id="iframe-sandbox-attribute">Iframe sandbox attribute</h3><p><u>Apps used in this section:</u></p><ol><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-FullBlown-noCSP-iframeSandbox">AppAwesome Backend (without CSP &amp; with iframe sandbox)</a> </li><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/iframeSandboxRelaxed">AppAwesome Backend (without CSP &amp; with iframe sandbox relaxed)</a></li><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-vanilla-injectedJS">BullyGiant</a> </li></ol><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-FullBlown-noCSP-iframeSandbox">AppAwesome</a>, that has no CSP headers, that has X-XSS-Protection relaxed &amp; has the below sandbox attributes</p><!--kg-card-begin: markdown--><pre><code>sandbox=&quot;allow-scripts allow-top-navigation allow-forms allow-popups&quot;
+</code></pre>
+<!--kg-card-end: markdown--><p>when loaded in the browser:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss17-1.png">
+<img src="../content/images/2020/03/ss17-1.png" width="200"/>
+<figcaption font-size="1px">AppAwesome Page - Iframe Sandbox => Browser</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>The child page has the form which when submitted displays the password on the checkout page inside the iframe as:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss18.png">
+<img src="../content/images/2020/03/ss18.png" width="200"/>
+<figcaption font-size="1px">AppAwesome Page - Iframe Sandbox => Browser</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>The <em>Access</em> button tries to read the password displayed inside iframe by reading the DOM of the page loaded in the iframe using the below JS</p><!--kg-card-begin: markdown--><pre><code>...
+  	&lt;script type=&quot;text/javascript&quot;&gt;
+  		function accessIframe()
+  		{
+  			document.getElementById('myIframe').style.background = &quot;green&quot;  			
+  			alert(document.getElementById('myIframe').contentDocument.getElementById('data').innerText);
+  		}
+  	&lt;/script&gt;
+...
+</code></pre>
+<!--kg-card-end: markdown--><p>Note that even in the absence of CSP headers clicking the <em>Access</em> button gives:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss19.png">
+<img src="../content/images/2020/03/ss19.png" width="400"/>
+<figcaption font-size="1px">AppAwesome Page - Iframe Sandbox => Browser</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>The console message is:</p><!--kg-card-begin: markdown--><pre><code>TypeError: document.getElementById(...).contentDocument is null
+</code></pre>
+<!--kg-card-end: markdown--><p>This happens because of the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#attr-sandbox">iframe's sandbox attribute</a>. The iframe sandbox can relaxed by using:</p><!--kg-card-begin: markdown--><pre><code>&lt;iframe src=&quot;http://192.168.1.34:31337/child?secret=iframeData&quot; frameborder=&quot;10&quot; id=&quot;myIframe&quot; sandbox=&quot;allow-same-origin allow-top-navigation allow-forms allow-popups&quot;&gt;
+</code></pre>
+<!--kg-card-end: markdown--><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/iframeSandboxRelaxed">AppAwesome</a>, with relaxed iframe sandbox attribute, allows the JS in the parent page to access the iframe's DOM, thus producing the alert box as expected, with the <em>mysecret </em>value:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss20.png">
+<img src="../content/images/2020/03/ss20.png" width="400"/>
+<figcaption font-size="1px">AppAwesome Page - Iframe Sandbox => Browser</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>Also, just a side note, using the below would have also relaxed the sandbox to the exact same effect as has also been mentioned <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#attr-sandbox">here</a>:</p><!--kg-card-begin: markdown--><pre><code>&lt;iframe src=&quot;http://192.168.1.34:31337/child?secret=iframeData&quot; frameborder=&quot;10&quot; id=&quot;myIframe&quot; sandbox=&quot;allow-scripts allow-same-origin allow-top-navigation allow-forms allow-popups&quot;&gt;
+</code></pre>
+<!--kg-card-end: markdown--><p>Repeating the same experiment on android webview again produces the exact same results.</p><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/iframeSandboxRelaxed">AppAwesome</a>, with relaxed iframe sandbox attribute when accessed from <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-vanilla-injectedJS">BullyGiant</a></p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss22.png">
+<img src="../content/images/2020/03/ss22.png" width="200"/>
+<figcaption font-size="1px">AppAwesome Page - Iframe Sandbox Relaxed=> Android Webview</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-FullBlown-noCSP-iframeSandbox">AppAwesome</a>, that has no CSP headers, that has X-XSS-Protection relaxed &amp; has the below sandbox attributes</p><pre><code>sandbox="allow-scripts allow-top-navigation allow-forms allow-popups"
+</code></pre><p>when accessed from <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-vanilla-injectedJS">BullyGiant</a>:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss21.png">
+<img src="../content/images/2020/03/ss21.png" width="600"/>
+<figcaption font-size="1px">AppAwesome Page - Iframe Sandbox => Android Webview</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>The error message in the console is:</p><!--kg-card-begin: markdown--><pre><code>03-29 15:18:38.292 11081-11081/com.example.webviewinjection D/WebView Console Error:: Uncaught SecurityError: Failed to read the 'contentDocument' property from 'HTMLIFrameElement': Sandbox access violation: Blocked a frame at &quot;http://192.168.1.34:31337&quot; from accessing a frame at &quot;http://192.168.1.34:31337&quot;.  The frame being accessed is sandboxed and lacks the &quot;allow-same-origin&quot; flag.
+</code></pre>
+<!--kg-card-end: markdown--><p>Now if BullyGiant were to bypass the above restriction, like it did in the case of CSP bypass, it could again take the same route of injecting some javascript inside the iframe itself <em>after</em> the checkout page is loaded. </p><blockquote><strong>Note</strong>: I haven't personally tried this approach, but conceptually it should work. Too lazy to do that right now !</blockquote><p>But instead of doing that what if BullyApp were to take an even simpler approach to bypassing everything once &amp; for all? Since the webview is under the total control fo BullyGiant could it not intercept the response before rendering it on the webview and remove all the trouble making headers altogether?</p><h3 id="manipulation-of-the-http-response">Manipulation of the HTTP response</h3><p><u>Apps used in this section:</u></p><ol><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-FullBlown-WithCSP-WithIframeSandbox">AppAwesome Backend (with all protection mechanisms in place)</a></li><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-allBypassed">BullyGiant (that bypasses all the above mechanisms)</a></li><li><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/finalToast">BullyGiant app with a toast</a></li></ol><p>Let's make this case the most secure out of all the previous ones. So this time the AppAwesome implements all secure mechanisms on the page. Below is a list of such changes:</p><ol><li>It uses CSP =&gt; so that no unwanted JS (inline or injected) could be executed.</li><li>It uses strict iframe sandbox attributes =&gt; so that the parent page can not access the contents of the iframe despite them being from the same domain.</li><li>It does not set the <code>X-XSS-Protection: 0</code> header =&gt; this was an assumption we had made above for the sake of our demos. In the real world, an app that wishes to avoid an XSS scenario would deploy every possible/feasible mechanism to prevent it from happening. So AppAwesome now does not return this header at all.</li><li>It does not have the <em>Access </em>button on the DOM with the inline JS =&gt; again something that we had used in few of our (most recent) previous examples for the sake of our demo. In the real world, in the context of our story, it would not make sense for AppAwesome to leave an <em>Access</em> button with the supporting inline JS to access the iframe. </li></ol><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-FullBlown-WithCSP-WithIframeSandbox">AppAwesome</a> when accessed from the browser:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss21-3.png">
+<img src="../content/images/2020/03/ss21-3.png" width="700"/>
+<figcaption font-size="1px">AppAwesome Page - FullBlown => Browser</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>Notice that all the security measures mentioned in the pointers above are implemented. CSP headers are in place, there's no <em>Access </em>button or the supporting inline JS, no X-XSS-Protection header &amp; the strict iframe sandbox attribute is present as well. </p><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-allBypassed">BullyGiant</a> handles all of the above <em>trouble makers </em>by handling everything before any response is rendered onto the webview at all,</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/04/catBoss.jpg">
+<img src="../content/images/2020/04/catBoss.jpg" width="300"/>
+<figcaption font-size="1px">AppAwesome 0 BullyGiant 1 !</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-FullBlown-WithCSP-WithIframeSandbox">AppAwesome</a> when accessed from <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-allBypassed">BullyGiant</a>:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss22-1.png">
+<img src="../content/images/2020/03/ss22-1.png" width="700"/>
+<figcaption font-size="1px">AppAwesome Page - FullBlown => Android Webview</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>Notice that the <code>X-XSS-Protection: 0</code> header has been added ! The CSP header is no longer present ! And there's (the old familiar) brand new <code>Access</code> button on the page as well. Clicking the <em>Access </em>button after the form inside the iframe is loaded gives:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss25.png">
+<img src="../content/images/2020/03/ss25.png" width="200"/>
+<figcaption font-size="1px">AppAwesome Page - FullBlown => Android Webview</figcaption>
+</a>
+</figure><!--kg-card-end: html--><p>Code snippet from <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/BullyGiant-allBypassed">BullyGiant</a> that does all the above trick:</p><!--kg-card-begin: markdown--><pre><code>...
+class ChangeResponse implements Interceptor {
+    @Override public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        String responseString = originalResponse.body().string();
+        Document doc = Jsoup.parse(responseString);
+        doc.getElementById(&quot;myIframe&quot;).removeAttr(&quot;sandbox&quot;);
+        MediaType contentType = originalResponse.body().contentType();
+        ResponseBody body = ResponseBody.create(doc.toString(), contentType);
+
+        return originalResponse.newBuilder()
+                .body(body)
+                .removeHeader(&quot;Content-Security-Policy&quot;)
+                .header(&quot;X-XSS-Protection&quot;, &quot;0&quot;)
+                .build();
+    }
+};
+...
+...
+    private WebResourceResponse handleRequestViaOkHttp(@NonNull String url) {
+        try {
+            final OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(new LoggingInterceptor())
+                    .addInterceptor(new ChangeResponse())
+                    .build();
+
+            final Call call = client.newCall(new Request.Builder()
+                    .url(url)
+                    .build()
+            );
+
+            final Response response = call.execute();
+            return new WebResourceResponse(&quot;text/html&quot;, &quot;utf-8&quot;,
+                    response.body().byteStream()
+            );
+        } catch (Exception e) {
+            return null; // return response for bad request
+        }
+    }
+...
+...
+       mywebview.setWebViewClient(new WebViewClient(){
+            @SuppressWarnings(&quot;deprecation&quot;) // From API 21 we should use another overload
+            @Override
+            public WebResourceResponse shouldInterceptRequest(@NonNull WebView view, @NonNull String url) {
+                return handleRequestViaOkHttp(url);
+            }
+...
+</code></pre>
+<!--kg-card-end: markdown--><p>What the above does is intercept the HTTP request that the webview would make &amp; pass it over to <a href="https://square.github.io/okhttp/">OkHttp</a>, which then handles all the HTTP requests &amp; response from that point on, before finally returning back the modified HTTP response back to the webview. </p><h3 id="ending-note-">Ending note:</h3><p>Before we end, a final touch. BullyGiant was able to access the whole of the page loaded inside webview. This was demoed using JS alerts on the page itself. The content read from the webview could actually also be displayed as native toast messages, to make it more convincing for the business leaders (or anyone else), accentuating that the sensitive details from AppAwesome are actually leaked over to BullyGiant. </p><p><a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/AppAwesome-backend-FullBlown-WithCSP-WithIframeSandbox">AppAwesome</a> when accessed from <a href="https://github.com/c0n71nu3/Android-Webview-Attack-Demo/tree/finalToast">BullyGiant</a>:</p><!--kg-card-begin: html--><style> .kg-image-card { display: block; margin-right: auto !important;}</style>
+<figure class="kg-image-card">
+<a href="../content/images/2020/03/ss26.png">
+<img src="../content/images/2020/03/ss26.png" width="200"/>
+<figcaption font-size="1px">AppAwesome Page - FullBlown => Android Webview - Raising a toast!</figcaption>
+</a>
+</figure><!--kg-card-end: html--><h3 id="conclusion">Conclusion</h3><p>Theoretically since the webview is under total control of the underlying android app, it is wise to not share any sensitive data on the page getting loaded inside the webview.</p><h3 id="collected-on-the-way">Collected on the way</h3><p><a href="https://www.jvt.me/posts/2019/01/29/git-worktree-multiple-branches/">git worktrees</a><br><a href="https://stackoverflow.com/questions/35979642/what-is-git-tag-how-to-create-tags-how-to-checkout-git-remote-tags">what are git tags &amp; how to maintain different versions using tags</a><br><a href="https://stackoverflow.com/questions/18216991/create-a-tag-in-a-github-repository">creating git tags</a><br><a href="https://devconnected.com/how-to-checkout-git-tags/">checking out git tags</a><br><a href="https://stackoverflow.com/questions/18216991/create-a-tag-in-a-github-repository">pushing git tags</a><br>tags can be viewed simply with <code>git tag</code><br><a href="https://stackoverflow.com/questions/21459540/add-new-commit-to-the-existing-git-tag">git tags can not be committed to</a> =&gt; For any changes to a tag, commit the changes on the or a new branch and then make a tag out of it. Delete the olde tag after that if you want<br><a href="https://koukia.ca/delete-a-local-and-a-remote-git-branch-61df0b10d323">deleting a branch local &amp; remote</a><br><a href="https://stackoverflow.com/questions/30590083/how-do-i-rename-both-a-git-local-and-remote-branch-name">rename a branch local &amp; remote</a><br><a href="https://stackoverflow.com/questions/30291607/get-javascript-console-when-emulating-webview-app">adding chrome console messages to adb logs</a><br>chrome's remote debugging feature</p>
+                </div>
+            </section>
+
+
+
+        </article>
+
+    </div>
+</main>
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+
+
+                <article class="post-card post tag-gratitude tag-rightbrain no-image no-image">
+
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="../that-dream-job/index.html">
+
+            <header class="post-card-header">
+                    <div class="post-card-primary-tag">Gratitude</div>
+                <h2 class="post-card-title">That Dream Job</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                    <p>Interview experience with LinkedIn around 2016</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+            
+                    <div class="author-name-tooltip">
+                        qreoct
+                    </div>
+            
+                    <a href="../author/qreoct/index.html" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="../author/qreoct/index.html">qreoct</a></span>
+                <span class="post-card-byline-date"><time datetime="2020-02-11">11 Feb 2020</time> <span class="bull">&bull;</span> 6 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+        </div>
+    </div>
+</aside>
+
+
+
+
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="../index.html">nuckingfoob</a> &copy; 2020</section>
+                <nav class="site-footer-nav">
+                    <a href="../index.html">Latest Posts</a>
+                    
+                    <a href="https://twitter.com/geek_ji" target="_blank" rel="noopener">Twitter</a>
+                    <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+    </script>
+    <script src="../assets/built/casper.js%3Fv=a09527745f"></script>
+
+    <script>
+        // Parse the URL parameter
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        // Give the parameter a variable name
+        var action = getParameterByName('action');
+
+        $(document).ready(function () {
+            if (action == 'subscribe') {
+                $('body').addClass("subscribe-success");
+            }
+
+            $('.subscribe-success-message .subscribe-close').click(function () {
+                $('.subscribe-success-message').addClass('close');
+            });
+
+            // Reset form on opening subscrion overlay
+            $('.subscribe-button').click(function() {
+                $('.subscribe-overlay form').removeClass();
+                $('.subscribe-email').val('');
+            });
+        });
+    </script>
+
+    <script>
+    $(document).ready(function () {
+        // FitVids - start
+        var $postContent = $(".post-full-content");
+        $postContent.fitVids();
+        // FitVids - end
+
+        // Replace nav with title on scroll - start
+        Casper.stickyNavTitle({
+            navSelector: '.site-nav-main',
+            titleSelector: '.post-full-title',
+            activeClass: 'nav-post-title-active'
+        });
+        // Replace nav with title on scroll - end
+
+        // Hover on avatar
+        var hoverTimeout;
+        $('.author-list-item').hover(function () {
+            var $this = $(this);
+
+            clearTimeout(hoverTimeout);
+
+            $('.author-card').removeClass('hovered');
+            $(this).children('.author-card').addClass('hovered');
+
+        }, function () {
+            var $this = $(this);
+
+            hoverTimeout = setTimeout(function () {
+                $this.children('.author-card').removeClass('hovered');
+            }, 800);
+        });
+    });
+</script>
+
+
+    
+
+</body>
+</html>
